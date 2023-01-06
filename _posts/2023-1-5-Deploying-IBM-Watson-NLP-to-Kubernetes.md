@@ -114,7 +114,6 @@ models:
   - registry: watson
     image: watson-nlp_classification_ensemble-workflow_lang_en_tone-stock:1.0.6
 ```
-{: file='values.yaml'}
 
 Explanation of the values.yaml:
 
