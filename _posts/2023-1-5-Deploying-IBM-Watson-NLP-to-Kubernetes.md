@@ -115,7 +115,7 @@ models:
     image: watson-nlp_classification_ensemble-workflow_lang_en_tone-stock:1.0.6
 ```
 
-Explanation of the values.yaml:
+Explanation of the properties:
 
 componentName
 : The Deployment and Services will be named using a combination of the Helm release, and this property.
