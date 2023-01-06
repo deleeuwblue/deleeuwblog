@@ -26,32 +26,6 @@ The Deployment deploys the watson-nlp-runtime image and one or more model contai
 
 An example [Deployment](https://github.com/deleeuwblue/watson-embed-demos/blob/main/nlp/k8s/deployment.yaml) is provided.
 
-```deployment.yaml
-    spec:
-      initContainers:
-      - name: ensemble-workflow-lang-en-tone-stock
-        image: cp.icr.io/cp/ai/watson-nlp_classification_ensemble-workflow_lang_en_tone-stock:1.0.6
-        volumeMounts:
-        - name: model-directory
-          mountPath: "/app/models"
-...
-      containers:
-      - name: watson-nlp-runtime
-        image: cp.icr.io/cp/ai/watson-nlp-runtime:1.0.18
-        ports:
-        - containerPort: 8080
-        - containerPort: 8085
-        volumeMounts:
-        - name: model-directory
-          mountPath: "/app/models"
-...
-      volumes:
-      - name: model-directory
-        emptyDir: {}
-```
-{: file='deployment.yaml'}
-
-
 ```yaml
     spec:
       initContainers:
@@ -124,7 +98,7 @@ cd terraform-gitops-watson-nlp/chart/watson-nlp
 
 Populate the `values.yaml` as follows:
 
-```values.yaml
+```yaml
 componentName: watson-nlp
 acceptLicense: true
 serviceType: ClusterIP
