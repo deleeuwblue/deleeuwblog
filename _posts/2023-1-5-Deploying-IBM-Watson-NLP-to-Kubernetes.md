@@ -102,7 +102,7 @@ cd terraform-gitops-watson-nlp/chart/watson-nlp
 
 Populate the `values.yaml` as follows:
 
-```sh
+```values.yaml
 componentName: watson-nlp
 acceptLicense: true
 serviceType: ClusterIP
@@ -118,20 +118,27 @@ models:
   - registry: watson
     image: watson-nlp_classification_ensemble-workflow_lang_en_tone-stock:1.0.6
 ```
+{: file='values.yaml'}
 
 Explanation of the values.yaml:
 
-- "componentName" - The Deployment and Services will be named using a combination of the Helm release, and this property.
+componentName
+: The Deployment and Services will be named using a combination of the Helm release, and this property.
 
-- "serviceType" - The type of Kubernetes Service used to expose the watson-runtime container. Valid values are according to the Kuberenetes specification.
+serviceType
+: The type of Kubernetes Service used to expose the watson-runtime container. Valid values are according to the Kuberenetes specification.
 
-- "registries" - A list of all registries assosiated with the Deployment. At a minimum, there will be a registry from which to pull the watson-runtime container and IBM provided pretrained models. Additionally, there could be a separate registry containing custom models.
+registries
+: A list of all registries assosiated with the Deployment. At a minimum, there will be a registry from which to pull the watson-runtime container and IBM provided pretrained models. Additionally, there could be a separate registry containing custom models.
 
-- "imagePullSecrets" - A list of pull secret names that the Deployment will reference. At a minimum, the pull secret for the IBM entitled registry/Artifactory should be provided. Additional pull secrets can be specified if there is a separate registry for custom models.
+imagePullSecrets
+: A list of pull secret names that the Deployment will reference. At a minimum, the pull secret for the IBM entitled registry/Artifactory should be provided. Additional pull secrets can be specified if there is a separate registry for custom models.
 
-- "runtime" - Specifies which of the defined registries should be used to pull the watson-runtime container, and its image name/tag.
+runtime
+: Specifies which of the defined registries should be used to pull the watson-runtime container, and its image name/tag.
 
-- "models" - A list of models to include in the Deployment, each specifies which of the defined registries should be used and the image names/tags.
+models
+: A list of models to include in the Deployment, each specifies which of the defined registries should be used and the image names/tags.
 
 Run the following commands to deploy the helm chart:
 
@@ -206,4 +213,5 @@ The response is as follows:
 }
 ```
 
-Note, if the cURL does not return a response, be aware the model can take a 1-2 minutes to load, so just try again.
+> Note, if the cURL does not return a response, be aware the model can take a 1-2 minutes to load, so just try again.
+{: .prompt-tip }

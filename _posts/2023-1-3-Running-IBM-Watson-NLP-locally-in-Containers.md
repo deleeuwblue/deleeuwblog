@@ -292,4 +292,5 @@ The response is as follows:
 }
 ```
 
-Note, if the cURL does not return a response, be aware the model can take a 1-2 minutes to load, so just try again.
+> Note, if the cURL does not return a response, be aware the model can take a 1-2 minutes to load, so just try again.
+{: .prompt-tip }
