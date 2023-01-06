@@ -1,7 +1,7 @@
 ---
 title: Introducing IBM Watson for Embed
 date: 2023-01-01 09:00:00 +/-0000
-categories: [IBM Watson for Embed, NLP]
+categories: [IBM Watson for Embed, General Information]
 tags: [ai, nlp]     # TAG names should always be lowercase
 ---
 
