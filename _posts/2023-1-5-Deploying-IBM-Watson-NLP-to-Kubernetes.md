@@ -26,7 +26,7 @@ The Deployment deploys the watson-nlp-runtime image and one or more model contai
 
 An example [Deployment](https://github.com/deleeuwblue/watson-embed-demos/blob/main/nlp/k8s/deployment.yaml) is provided.
 
-```sh
+```
     spec:
       initContainers:
       - name: ensemble-workflow-lang-en-tone-stock
@@ -35,8 +35,8 @@ An example [Deployment](https://github.com/deleeuwblue/watson-embed-demos/blob/m
         - name: model-directory
           mountPath: "/app/models"
 ```
-
-```sh
+...
+```
       containers:
       - name: watson-nlp-runtime
         image: cp.icr.io/cp/ai/watson-nlp-runtime:1.0.18
@@ -47,8 +47,8 @@ An example [Deployment](https://github.com/deleeuwblue/watson-embed-demos/blob/m
         - name: model-directory
           mountPath: "/app/models"
 ```
-
-```sh
+...
+```
       volumes:
       - name: model-directory
         emptyDir: {}
