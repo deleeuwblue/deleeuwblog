@@ -5,7 +5,7 @@ categories: [IBM Watson for Embed, NLP]
 tags: [ai, nlp, kubernetes, openshift]     # TAG names should always be lowercase
 ---
 
-In this blog, I will demonstrate how to deploy the Watson for NLP Library to OpenShift using either [Kubernetes resources in yaml files](#deployments-using-kubernetes-resources), or using a [helm chart](#deployments-using-helm-chart).
+In this blog, I will demonstrate how to deploy the Watson for NLP Library to OpenShift using either [Kubernetes resources in yaml files](#deployments-using-kubernetes-resources), or using a [helm chart](#deployments-using-a-helm-chart).
 
 For initial context, read my blog [introducing IBM Watson for Embed]({{ site.baseurl }}/Introducing-IBM-Watson-for-Embed)
 
