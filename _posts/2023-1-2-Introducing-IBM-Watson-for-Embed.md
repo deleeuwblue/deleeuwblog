@@ -19,7 +19,7 @@ The following options are available to deploy Watson NLP:
 
 * [Locally using container engines like Docker or Podman]({{ site.baseurl }}/Running-IBM-Watson-NLP-locally-in-Containers)
 * Deployments to Kubernetes using Minikube
-* Deployments to Kubernetes using yaml files or helm charts
+* [Deployments to Kubernetes using yaml files or helm charts]({{ site.baseurl }}/Deploying-IBM-Watson-NLP-to-Kubernetes)
 * Deployments to Kubernetes using KServe ModelMesh Serving
 * Deployments to OpenShift via TechZone Deployer using Terraform and ArgoCD
 

@@ -207,11 +207,3 @@ The response is as follows:
 ```
 
 Note, if the cURL does not return a response, be aware the model can take a 1-2 minutes to load, so just try again.
-
-## Multiple options are available to deploy Watson NLP
-
-* [Locally using container engines like Docker or Podman]({{ site.baseurl }}/Running-IBM-Watson-NLP-locally-in-Containers)
-* Deployments to Kubernetes using Minikube (blog coming soon)
-* Deployments to Kubernetes using yaml files or helm charts (the focus of this blog post)
-* Deployments to Kubernetes using KServe ModelMesh Serving (blog coming soon)
-* Deployments to OpenShift via TechZone Deployer using Terraform and ArgoCD (blog coming soon)

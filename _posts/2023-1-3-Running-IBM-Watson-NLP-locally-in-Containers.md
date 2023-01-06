@@ -18,7 +18,7 @@ The IBM Watson for NLP Library comprises two components:
 
 You first need to decide which models you want to use, according to the use cases.  This helps minimise the size of the resulting container.  You can also train your own models which I will blog about separately.
 
-The pre-trained models provided by IBM are delivered as containers which are usually run as init containers when deploying to Kubernetes [see other deployment options](#further-options-are-available-to-deploy-watson-nlp).  To use the pre-trained models with a standalone container (e.g. locally using Docker), you need to extract the model from the model container and combine it with the runtime to create a custom image, using a Dockerfile.
+The pre-trained models provided by IBM are delivered as containers which are usually run as init containers when deploying to Kubernetes.  To use the pre-trained models with a standalone container (e.g. locally using Docker), you need to extract the model from the model container and combine it with the runtime to create a custom image, using a Dockerfile.
 
 There are two approaches to extract the model from the provided containers:
 
@@ -293,12 +293,3 @@ The response is as follows:
 ```
 
 Note, if the cURL does not return a response, be aware the model can take a 1-2 minutes to load, so just try again.
-
-## Multiple options are available to deploy Watson NLP
-
-* Locally using container engines like Docker or Podman (the focus of this blog post)
-* Deployments to Kubernetes using Minikube
-* [Deployments to Kubernetes using yaml files or helm charts]({{ site.baseurl }}/Deploying-IBM-Watson-NLP-Kubernetes)
-* Deployments to Kubernetes using KServe ModelMesh Serving
-* Deployments to OpenShift via TechZone Deployer using Terraform and ArgoCD
-
