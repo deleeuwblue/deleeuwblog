@@ -60,7 +60,7 @@ layout: page
     {% endcapture %}
 
     <div class="mt-3 mb-3">
-      <img {{ src }} {{ class }} {{ alt }} style="display: block;margin-left: auto;margin-right: auto;width: 65%" {{ lqip | strip }}>
+      <img {{ src }} {{ class }} {{ alt }} style="display: block;margin-left: auto;margin-right: auto;width: 65%;" {{ lqip | strip }}>
       {%- if post.image.alt -%}
         <figcaption class="text-center pt-2 pb-2">{{ post.image.alt }}</figcaption>
       {%- endif -%}
