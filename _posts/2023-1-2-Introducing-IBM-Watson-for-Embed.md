@@ -3,7 +3,7 @@ title: Introducing IBM Watson for Embed
 date: 2023-01-01 09:00:00 +/-0000
 categories: [IBM Watson for Embed, General Information]
 tags: [ai, nlp]     # TAG names should always be lowercase
-image: https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-2-Introducing-IBM-Watson-for-Embed/aiEmbedBannerSmall.png
+image: https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-2-Introducing-IBM-Watson-for-Embed/embeddableAIHand.png
 ---
 
 IBM has recently released a framework that is specifically designed for developers to embed AI into their solutions.  IBM Watson for Embed lowers the barrier for AI adoption by helping address the skills shortage and development costs that are required to build AI models from scratch.  A common framework is used to run AI libraries including natural language processing (NLP) and Speech.  More AI libraries are coming soon.  

@@ -48,12 +48,25 @@ layout: page
     </h1>
 
     {% if post.image %}
+
+    {% capture src %}src="{{ post.image.path | default: post.image }}"{% endcapture %}
+    {% capture class %}class="preview-img{% if post.image.no_bg %}{{ ' no-bg' }}{% endif %}"{% endcapture %}
+    {% capture alt %}alt="{{ post.image.alt | default: "Preview Image" }}"{% endcapture %}
+
+    {% capture lqip %}
+      {% if post.image.lqip %}
+        lqip="{{ post.image.lqip }}"
+      {% endif %}
+    {% endcapture %}
+
     <div class="mt-3 mb-3">
-      <img src=https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-2-Introducing-IBM-Watson-for-Embed/embed.png alt="abc" w="1200" h="630" {{ lqip | strip }}>
+      <img {{ src }} {{ class }} {{ alt }} w="1200" h="630" {{ lqip | strip }}>
+      {%- if post.image.alt -%}
+        <figcaption class="text-center pt-2 pb-2">{{ post.image.alt }}</figcaption>
+      {%- endif -%}
     </div>
+
     {% endif %}
-
-
 
 
     <div class="post-content">
