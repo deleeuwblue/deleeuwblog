@@ -3,6 +3,7 @@ title: Deploying IBM Watson NLP to Kubernetes with OpenShift
 date: 2023-01-01 09:00:00 +/-0000
 categories: [IBM Watson for Embed, NLP]
 tags: [ai, nlp, kubernetes, openshift]     # TAG names should always be lowercase
+image: https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-5-Deploying-IBM-Watson-NLP-to-Kubernetes/aiEmbed2.png
 ---
 
 In this blog, I will demonstrate how to deploy the Watson for NLP Library to OpenShift using either [Kubernetes resources in yaml files](#deployments-using-kubernetes-resources), or using a [helm chart](#deployments-using-a-helm-chart).
