@@ -48,9 +48,6 @@ layout: page
     </h1>
 
     <div class="post-content">
-      {% if page.image %}
-      <img src="{{ page.image }}">
-      {% endif %}
       <p>
         {% include no-linenos.html content=post.content %}
         {{ content | markdownify | strip_html | truncate: 200 | escape }}
