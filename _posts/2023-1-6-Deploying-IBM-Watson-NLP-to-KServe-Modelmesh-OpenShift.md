@@ -132,7 +132,7 @@ NAME             TYPE     DATA   AGE
 storage-config   Opaque   1      117m
 ```
 
-The secret contains connection details for the "localMinIO" COS endpoint.  This secret becomes important later when uploading the models to be served.  The secret also defines the default bucket of `modelmesh-example-models`, which needs to be created on mino.  This can either be achieved using the [mc](https://min.io/download#/linux), or you can access the minio GUI for this simple task:
+The secret contains connection details for the "localMinIO" COS endpoint.  This secret becomes important later when uploading the models to be served.  The secret also defines the default bucket of `modelmesh-example-models`, which needs to be created on mino.  This can either be achieved using the [mc](https://min.io/download#/linux) cli, or you can access the minio GUI for this simple task:
 
 ```sh
 oc port-forward service/minio 9000:9000
@@ -163,7 +163,7 @@ In the minio GUI, click the red '+' button (located bottom right) to add a bucke
 
 Creating this bucket is a workaround and is not required when using the [quick start install script](https://github.com/kserve/modelmesh-serving/blob/release-0.9/docs/quickstart.md) with Kubernetes.  The minio container deployed by the quick start includes a default directory `/data1`, which is pre-populated with a bucket `modelmesh-example-models` containing some default models for pytorch, sklearn, tensorflow etc.
 
-Because OpenShift containers do not run as root, the minio container cannot write to `/data1`, hence in previous step we instead configured minio to use `/tmp/data1`, to which the non-root user will have write access.  However, `/tmp/data1` does not include the bucket `modelmesh-example-models`, hence the additional steps above to create it.  Also, if you wanted to make use of the default models in `/data1`, you would also need to move these files into `/tmp/data1`.
+Because OpenShift containers do not run as root, the minio container cannot write to `/data1`, hence in a previous step we instead configured minio to use `/tmp/data1`, to which the non-root user will have write access.  However, `/tmp/data1` does not include the bucket `modelmesh-example-models`, hence the additional steps above to create it.  Also, if you wanted to make use of the default models in `/data1`, you would also need to move these files into `/tmp/data1`.
 
 ## Create a Pull Secret and ServiceAccount
 
