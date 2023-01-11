@@ -19,7 +19,7 @@ timezone: Europe/London
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Adam de Leeuw's Blog                          # the main title
+title: Adam de Leeuw                          # the main title
 
 tagline: Documenting my experiences in IT   # it will display as the sub-title
 
