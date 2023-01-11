@@ -8,7 +8,7 @@ image: https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img
 
 In this blog, I will demonstrate how to deploy the Watson for NLP Library to OpenShift using KServe Modelmesh.
 
-For initial context, read my blog [introducing IBM Watson for Embed]({{ site.baseurl }}/Introducing-IBM-Watson-for-Embed)
+For initial context, read my blog [introducing IBM Watson for Embed]({{ site.baseurl }}/Introducing-IBM-Watson-for-Embed).
 
 For deployment to Kubernetes, see this [blog]({{ site.baseurl }}/Deploying-IBM-Watson-NLP-to-KServe-Modelmesh-OpenShift).
 
@@ -157,9 +157,14 @@ For example:
 }
 ```
 
-In the minio GUI, click the '+' button to add a bucket named `modelmesh-example-models`
+In the minio GUI, click the red '+' button (located bottom right) to add a bucket named `modelmesh-example-models`
 
 ![minIOGUI](https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-6-Deploying-IBM-Watson-NLP-to-KServe-Modelmesh-OpenShift/minioGUI.png)
+
+> This step is a workaround and is not required when using the [quick start install script](https://github.com/kserve/modelmesh-serving/blob/release-0.9/docs/quickstart.md) with Kubernetes.  The minio container deployed by the quick start includes a default directory `/data1`, which is pre-populated with a bucket `modelmesh-example-models` containing some default models (in directories `keras, lightgbm, onnx, pytorch, sklearn, tensorflow, xgboost`).  
+
+However, because OpenShift containers do not run as root, the minio container cannot write to `/data1`, hence in section [Install KServe Modelmesh](#install-kserve-modelmesh) we instead configured minio to use `/tmp/data1`, to which the non-root user will have write access.  However, `/tmp/data1` does not include the bucket `modelmesh-example-models`, hence the additional steps above to create it.  Also, if you wanted to make use of the default models in `/data1`, you would also need to move these files into `/tmp/data1`.
+{: .prompt-info }
 
 ## Create a Pull Secret and ServiceAccount
 
