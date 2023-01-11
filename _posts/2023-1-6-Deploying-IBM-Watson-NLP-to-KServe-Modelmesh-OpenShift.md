@@ -158,3 +158,108 @@ For example:
 In the minio GUI, click the '+' button to add a bucket named `modelmesh-example-models`
 
 ![minIOGUI](https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-6-Deploying-IBM-Watson-NLP-to-KServe-Modelmesh-OpenShift/minioGUI.png)
+
+## Create a Pull Secret and ServiceAccount
+
+Ensure you have a [trial key](https://www.ibm.com/account/reg/uk-en/signup?formid=urx-51726).
+
+```sh
+IBM_ENTITLEMENT_KEY=<your trial key>
+oc create secret docker-registry ibm-entitlement-key --docker-server=cp.icr.io/cp --docker-username=cp --docker-password=$IBM_ENTITLEMENT_KEY
+```
+
+An example [ServiceAccount](https://github.com/deleeuwblue/watson-embed-demos/blob/main/nlp/modelmesh-serving/serviceaccount.yaml) is provided.  Create a ServiceAccount that references the pull secret.
+
+```sh
+git clone https://github.com/deleeuwblue/watson-embed-demos.git
+oc apply -f watson-embed-demos/nlp/modelmesh-serving/serviceaccount.yaml
+```
+
+Configure Modelmesh Serving to use this ServiceAccount, giving the controller access to the IBM entitled registry.  Use the OpenShift console to edit the Workloads->ConfigMap `model-serving-config-defaults` in the `modelmesh-serving` namespace.  
+
+Set `serviceAccountName` to `pull-secret-sa`.  Also disable `restProxy` as this is not supported by Watson NLP:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: model-serving-config
+data:
+  config.yaml: |
+    #Sample config overrides
+    serviceAccountName: pull-secret-sa
+    restProxy:
+      enabled: false
+```
+
+Restart the `modelmesh-controller` pod:
+
+```sh
+oc scale deployment/modelmesh-controller --replicas=0 --all
+oc scale deployment/modelmesh-controller --replicas=1 --all
+```
+
+## Configure a ServingRuntime for Watson NLP
+
+An example [ServingRuntime resource](https://github.com/deleeuwblue/watson-embed-demos/blob/main/nlp/modelmesh-serving/servingruntime.yaml) is provided.  The serving runtime defines the `cp.icr.io/cp/ai/watson-nlp-runtime` container image should be used to serve models that specify `watson-nlp` as their model format.  Note that `ServingRuntime` recommended by the [official documentation](https://www.ibm.com/docs/en/watson-libraries?topic=containers-run-kubernetes-kserve-modelmesh-serving) includes resource limits.  Becasause I was testing with a small OpenShift cluster, I needed to comment these out.
+
+```yaml
+apiVersion: serving.kserve.io/v1alpha1
+kind: ServingRuntime
+metadata:
+  name: watson-nlp-runtime
+spec:
+  containers:
+  - env:
+      - name: ACCEPT_LICENSE
+        value: "true"
+      - name: LOG_LEVEL
+        value: info
+      - name: CAPACITY
+        value: "6000000000"
+      - name: DEFAULT_MODEL_SIZE
+        value: "500000000"
+      - name: METRICS_PORT
+        value: "2113"
+    args:
+      - --  
+      - python3
+      - -m
+      - watson_runtime.grpc_server
+    image: cp.icr.io/cp/ai/watson-nlp-runtime:1.0.20
+    imagePullPolicy: IfNotPresent
+    name: watson-nlp-runtime
+ #   resources:
+ #     limits:
+ #       cpu: 2
+ #       memory: 8Gi
+ #     requests:
+ #       cpu: 1
+ #       memory: 8Gi
+  grpcDataEndpoint: port:8085
+  grpcEndpoint: port:8085
+  multiModel: true
+  storageHelper:
+    disabled: false
+  supportedModelFormats:
+    - autoSelect: true
+      name: watson-nlp
+```
+
+Create the ServingRuntime resource:
+
+```sh
+oc apply -f watson-embed-demos/nlp/modelmesh-serving/servingruntime.yaml
+```
+
+Now you see the new watson NLP serving runtime, in addition to those provided by default:
+
+```sh
+oc get servingruntimes
+
+NAME                 DISABLED   MODELTYPE     CONTAINERS           AGE
+mlserver-0.x                    sklearn       mlserver             7m6s
+ovms-1.x                        openvino_ir   ovms                 7m6s
+triton-2.x                      keras         triton               7m6s
+watson-nlp-runtime              watson-nlp    watson-nlp-runtime   7s
+```
