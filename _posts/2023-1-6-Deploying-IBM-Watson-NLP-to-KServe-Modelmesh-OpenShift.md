@@ -10,6 +10,8 @@ In this blog, I will demonstrate how to deploy the Watson for NLP Library to Ope
 
 For initial context, read my blog [introducing IBM Watson for Embed]({{ site.baseurl }}/Introducing-IBM-Watson-for-Embed)
 
+For deployment to Kubernetes, see this [blog]({{ site.baseurl }}/Deploying-IBM-Watson-NLP-to-KServe-Modelmesh-OpenShift).
+
 ## Introducing KServe
 
 [KServe](https://github.com/kserve/kserve) is a standard model inference platform on k8s.  It is built for highly scalable use cases and supports existing thrid party model servers and standard ML/DL model formats, or it can be extended to support additional runtimes like the Watson NLP runtime.
@@ -350,6 +352,9 @@ oc get InferenceService
 NAME              URL                                               READY   PREV   LATEST   PREVROLLEDOUTREVISION   LATESTREADYREVISION   AGE
 syntax-izumo-en   grpc://modelmesh-serving.modelmesh-serving:8033   True   
 ```
+
+> Note, the watson-nlp-runtime container can take 5-10 minutes to download.  Until this has completed, the InferenceService will show a status of false.
+{: .prompt-tip }
 
 ## Test the model 
 
