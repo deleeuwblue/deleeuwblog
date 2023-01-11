@@ -311,7 +311,7 @@ oc apply -f watson-embed-demos/nlp/modelmesh-serving/job.yaml
 
 The minio GUI shows the uploaded model data:
 
-![minIO Model Uploaded](https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-6-Deploying-IBM-Watson-NLP-to-KServe-Modelmesh-OpenShift/minioModelUploaded.png)
+![minIOModelUploaded](https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-6-Deploying-IBM-Watson-NLP-to-KServe-Modelmesh-OpenShift/minioModelUploaded.png)
 
 
 ## Create a InferenceService for the Syntax model
