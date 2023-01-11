@@ -158,3 +158,288 @@ For example:
 In the minio GUI, click the '+' button to add a bucket named `modelmesh-example-models`
 
 ![minIOGUI](https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-6-Deploying-IBM-Watson-NLP-to-KServe-Modelmesh-OpenShift/minioGUI.png)
+
+## Create a Pull Secret and ServiceAccount
+
+Ensure you have a [trial key](https://www.ibm.com/account/reg/uk-en/signup?formid=urx-51726).
+
+```sh
+IBM_ENTITLEMENT_KEY=<your trial key>
+oc create secret docker-registry ibm-entitlement-key --docker-server=cp.icr.io/cp --docker-username=cp --docker-password=$IBM_ENTITLEMENT_KEY
+```
+
+An example [ServiceAccount](https://github.com/deleeuwblue/watson-embed-demos/blob/main/nlp/modelmesh-serving/serviceaccount.yaml) is provided.  Create a ServiceAccount that references the pull secret.
+
+```sh
+git clone https://github.com/deleeuwblue/watson-embed-demos.git
+oc apply -f watson-embed-demos/nlp/modelmesh-serving/serviceaccount.yaml
+```
+
+Configure Modelmesh Serving to use this ServiceAccount, giving the controller access to the IBM entitled registry.  Use the OpenShift console to edit the Workloads->ConfigMap `model-serving-config-defaults` in the `modelmesh-serving` namespace.  
+
+Set `serviceAccountName` to `pull-secret-sa`.  Also disable `restProxy` as this is not supported by Watson NLP:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: model-serving-config
+data:
+  config.yaml: |
+    #Sample config overrides
+    serviceAccountName: pull-secret-sa
+    restProxy:
+      enabled: false
+```
+
+Restart the `modelmesh-controller` pod:
+
+```sh
+oc scale deployment/modelmesh-controller --replicas=0 --all
+oc scale deployment/modelmesh-controller --replicas=1 --all
+```
+
+## Configure a ServingRuntime for Watson NLP
+
+An example [ServingRuntime resource](https://github.com/deleeuwblue/watson-embed-demos/blob/main/nlp/modelmesh-serving/servingruntime.yaml) is provided.  The serving runtime defines the `cp.icr.io/cp/ai/watson-nlp-runtime` container image should be used to serve models that specify `watson-nlp` as their model format.  Note that `ServingRuntime` recommended by the [official documentation](https://www.ibm.com/docs/en/watson-libraries?topic=containers-run-kubernetes-kserve-modelmesh-serving) includes resource limits.  Becasause I was testing with a small OpenShift cluster, I needed to comment these out.
+
+```yaml
+apiVersion: serving.kserve.io/v1alpha1
+kind: ServingRuntime
+metadata:
+  name: watson-nlp-runtime
+spec:
+  containers:
+  - env:
+      - name: ACCEPT_LICENSE
+        value: "true"
+      - name: LOG_LEVEL
+        value: info
+      - name: CAPACITY
+        value: "6000000000"
+      - name: DEFAULT_MODEL_SIZE
+        value: "500000000"
+      - name: METRICS_PORT
+        value: "2113"
+    args:
+      - --  
+      - python3
+      - -m
+      - watson_runtime.grpc_server
+    image: cp.icr.io/cp/ai/watson-nlp-runtime:1.0.20
+    imagePullPolicy: IfNotPresent
+    name: watson-nlp-runtime
+ #   resources:
+ #     limits:
+ #       cpu: 2
+ #       memory: 8Gi
+ #     requests:
+ #       cpu: 1
+ #       memory: 8Gi
+  grpcDataEndpoint: port:8085
+  grpcEndpoint: port:8085
+  multiModel: true
+  storageHelper:
+    disabled: false
+  supportedModelFormats:
+    - autoSelect: true
+      name: watson-nlp
+```
+
+Create the ServingRuntime resource:
+
+```sh
+oc apply -f watson-embed-demos/nlp/modelmesh-serving/servingruntime.yaml
+```
+
+Now you see the new watson NLP serving runtime, in addition to those provided by default:
+
+```sh
+oc get servingruntimes
+
+NAME                 DISABLED   MODELTYPE     CONTAINERS           AGE
+mlserver-0.x                    sklearn       mlserver             7m6s
+ovms-1.x                        openvino_ir   ovms                 7m6s
+triton-2.x                      keras         triton               7m6s
+watson-nlp-runtime              watson-nlp    watson-nlp-runtime   7s
+```
+
+## Upload a pretrained Watson NLP model to Cloud Object Storage
+
+The next step is to upload a model to object storage.  Watson NLP provides pre-trained models as containers, which are usually run as init containers to copy their data to a volume shared with the watson-nlp-runtime, see [Deployments to Kubernetes using yaml files or helm charts]({% post_url 2023-1-5-Deploying-IBM-Watson-NLP-to-Kubernetes %}).  When using Modelmesh, the goal is to copy the model data to COS.  To achieve this, we can run the model container as a k8s Job, where the model container is configured to write to COS instead of a local volume mount.
+
+An example [Job](https://github.com/deleeuwblue/watson-embed-demos/blob/main/nlp/modelmesh-serving/job.yaml) is provided which launches the model container for the [Syntax model](https://www.ibm.com/docs/en/watson-libraries?topic=catalog-syntax).  The `env` variables which configure the model container to copy its data to COS, referencing the credentials from the `localMinIO` section of the `storage-config` secret, which is mounted as a volume.
+
+```yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: model-upload
+  namespace: modelmesh-serving
+spec:
+  template:
+    spec:
+      containers:
+        - name: syntax-izumo-en-stock
+          image: cp.icr.io/cp/ai/watson-nlp_syntax_izumo_lang_en_stock:1.0.7
+          env:
+            - name: UPLOAD
+              value: "true"
+            - name: ACCEPT_LICENSE
+              value: "true"
+            - name: S3_CONFIG_FILE
+              value: /storage-config/localMinIO
+            - name: UPLOAD_PATH
+              value: models
+          volumeMounts:
+            - mountPath: /storage-config
+              name: storage-config
+              readOnly: true
+      volumes:
+        - name: storage-config
+          secret:
+            defaultMode: 420
+            secretName: storage-config
+      restartPolicy: Never
+  backoffLimit: 2
+```
+
+Create the Job:
+```sh
+oc apply -f watson-embed-demos/nlp/modelmesh-serving/job.yaml
+```
+
+The minio GUI shows the uploaded model data:
+
+![minIOModelUploaded](https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-6-Deploying-IBM-Watson-NLP-to-KServe-Modelmesh-OpenShift/minioModelUploaded.png)
+
+
+## Create a InferenceService for the Syntax model
+
+Finally, an InferenceService CR needs to be created to make the model available via the watson-nlp Serving Runtime that we already created.  This resource defines the location for model `syntax-izumo-en` in COS.  It also specifies a `modelFormat` of `watson-nlp` which will assosiate the model with the `watson-nlp-runtime` serving runtime.
+
+```yaml
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: syntax-izumo-en
+  namespace: modelmesh-serving
+  annotations:
+    serving.kserve.io/deploymentMode: ModelMesh
+spec:
+  predictor:
+    model:
+      modelFormat:
+        name: watson-nlp
+      storage:
+        path: models/syntax_izumo_lang_en_stock
+        key: localMinIO
+```
+
+Create the InferenceService:
+
+```sh
+oc apply -f watson-embed-demos/nlp/modelmesh-serving/inferenceservice.yaml
+```
+
+The status of the InferenceService can be verified:
+
+```sh
+oc get InferenceService
+
+NAME              URL                                               READY   PREV   LATEST   PREVROLLEDOUTREVISION   LATESTREADYREVISION   AGE
+syntax-izumo-en   grpc://modelmesh-serving.modelmesh-serving:8033   True   
+```
+
+## Test the model 
+
+The `modelmesh-serving` Service does not expose a REST port, only GRPC.  Interacting with GRPC requires the proto files.  They are published [here](https://github.com/IBM/ibm-watson-embed-clients).  Enter the following commands to test the Syntax model using [grpcurl](https://formulae.brew.sh/formula/grpcurl):
+
+
+```sh
+oc port-forward service/modelmesh-serving 8033:8033
+```
+
+Open a second terminal and run commands:
+
+```sh
+git clone https://github.com/IBM/ibm-watson-embed-clients
+cd ibm-watson-embed-clients/watson_nlp/protos
+grpcurl -plaintext -proto ./common-service.proto \
+-H 'mm-vmodel-id: syntax-izumo-en' \
+-d '
+{
+  "parsers": [
+    "TOKEN"
+  ],
+  "rawDocument": {
+    "text": "This is a test."
+  }
+}
+' \
+127.0.0.1:8033 watson.runtime.nlp.v1.NlpService.SyntaxPredict
+```
+
+The GRPC call is routed by the `modelmesh-serving` Service to the appropriate serving runtime pod for the model requested.  Modelmesh ensures there are enough Serving Runtime pods to meet demand.  The response from the `watson-nlp-runtime` should look like this:
+
+```sh
+{
+  "text": "This is a test.",
+  "producerId": {
+    "name": "Izumo Text Processing",
+    "version": "0.0.1"
+  },
+  "tokens": [
+    {
+      "span": {
+        "end": 4,
+        "text": "This"
+      }
+    },
+    {
+      "span": {
+        "begin": 5,
+        "end": 7,
+        "text": "is"
+      }
+    },
+    {
+      "span": {
+        "begin": 8,
+        "end": 9,
+        "text": "a"
+      }
+    },
+    {
+      "span": {
+        "begin": 10,
+        "end": 14,
+        "text": "test"
+      }
+    },
+    {
+      "span": {
+        "begin": 14,
+        "end": 15,
+        "text": "."
+      }
+    }
+  ],
+  "sentences": [
+    {
+      "span": {
+        "end": 15,
+        "text": "This is a test."
+      }
+    }
+  ],
+  "paragraphs": [
+    {
+      "span": {
+        "end": 15,
+        "text": "This is a test."
+      }
+    }
+  ]
+}
+```
