@@ -119,3 +119,42 @@ ovms-1.x                  openvino_ir   ovms         4m11s
 triton-2.x                keras         triton       4m11s
 ```
 
+## Create Bucket
+
+The installation created a secret with credentials for the local minIO object storage.
+
+```sh
+oc get secret/storage-config
+
+NAME             TYPE     DATA   AGE
+storage-config   Opaque   1      117m
+```
+
+The secret contains connection details for the "localMinIO" COS endpoint.  This secret becomes important later when uploading the models to be served.  The secret also defines the default bucket of `modelmesh-example-models`, which needs to be created on mino.  This can either be achieved using the [mc](https://min.io/download#/linux), or you can access the minio GUI for this simple task:
+
+```sh
+oc port-forward service/minio 9000:9000
+```
+
+Open `localhost:9000` in a browser.  Login using the credentials in the secret which you can view either via the OpenShift console or cli:
+
+```sh
+oc get secret/storage-config -oyaml
+```
+
+For example:
+
+```yaml
+{
+  "type": "s3",
+  "access_key_id": "XXXXX",
+  "secret_access_key": "XXXXX",
+  "endpoint_url": "http://minio:9000",
+  "default_bucket": "modelmesh-example-models",
+  "region": "us-south"
+}
+```
+
+In the minio GUI, click the '+' button to add a bucket named `modelmesh-example-models`
+
+![minIOGUI](https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-6-Deploying-IBM-Watson-NLP-to-KServe-Modelmesh-OpenShift/minioGUI.png)
