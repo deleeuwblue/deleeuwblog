@@ -2,15 +2,15 @@
 title: Deploying IBM Watson NLP to OpenShift using KServe Modelmesh
 date: 2023-01-06 09:00:00 +/-0000
 categories: [IBM Watson for Embed, NLP]
-tags: [ai, nlp, kubernetes, kserve]     # TAG names should always be lowercase
+tags: [ai, nlp, kubernetes, openshift, kserve]     # TAG names should always be lowercase
 image: https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-6-Deploying-IBM-Watson-NLP-to-KServe-Modelmesh-OpenShift/mesh.png
 ---
 
 In this blog, I will demonstrate how to deploy the Watson for NLP Library to OpenShift using KServe Modelmesh.
 
-For initial context, read my blog [introducing IBM Watson for Embed]({{ site.baseurl }}/Introducing-IBM-Watson-for-Embed).
+For initial context, read my blog [introducing IBM Watson for Embed]({% post_url 2023-1-2-Introducing-IBM-Watson-for-Embed %}).
 
-For deployment to Kubernetes, see this [blog]({{ site.baseurl }}/Deploying-IBM-Watson-NLP-to-KServe-Modelmesh-Kubernetes).
+For deployment to Kubernetes, see this [blog]({% post_url 2023-1-6-Deploying-IBM-Watson-NLP-to-KServe-Modelmesh-Kubernetes %}).
 
 ## Introducing KServe
 
@@ -18,7 +18,7 @@ For deployment to Kubernetes, see this [blog]({{ site.baseurl }}/Deploying-IBM-W
 
 [Modelmesh Serving](https://github.com/kserve/modelmesh-serving) is intended to further increase KServe's scalability, especially when there are a large number of models which change frequently.  It intelligently loads and unloads models into memory from from cloud object storage (COS), to strike a trade-off between responsiveness to users and computational footprint.
 
-## Install Kserve Modelmesh
+## Install Kserve Modelmesh on OpenShift
 
 KServe Modelmesh requires etcd, S3 storage and optionally Knative and Istio.
 
