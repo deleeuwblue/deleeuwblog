@@ -163,8 +163,7 @@ In the minio GUI, click the red '+' button (located bottom right) to add a bucke
 
 Creating this bucket is a workaround and is not required when using the [quick start install script](https://github.com/kserve/modelmesh-serving/blob/release-0.9/docs/quickstart.md) with Kubernetes.  The minio container deployed by the quick start includes a default directory `/data1`, which is pre-populated with a bucket `modelmesh-example-models` containing some default models for pytorch, sklearn, tensorflow etc.
 
-Because OpenShift containers do not run as root, the minio container cannot write to `/data1`, hence in section `Install KServe Modelmesh` we instead configured minio to use `/tmp/data1`, to which the non-root user will have write access.  However, `/tmp/data1` does not include the bucket `modelmesh-example-models`, hence the additional steps above to create it.  Also, if you wanted to make use of the default models in `/data1`, you would also need to move these files into `/tmp/data1`.
-
+Because OpenShift containers do not run as root, the minio container cannot write to `/data1`, hence in previous step we instead configured minio to use `/tmp/data1`, to which the non-root user will have write access.  However, `/tmp/data1` does not include the bucket `modelmesh-example-models`, hence the additional steps above to create it.  Also, if you wanted to make use of the default models in `/data1`, you would also need to move these files into `/tmp/data1`.
 
 ## Create a Pull Secret and ServiceAccount
 
