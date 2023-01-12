@@ -14,9 +14,9 @@ Instana [supports a broad list of technologies](https://www.instana.com/supporte
 
 There are two key components to Instana: 
 
-* The Instana backend which provides the UI
+* The Instana backend
 
-This can be deployed to your own infrastructure, or you can consume it as SaaS.
+This provides the UI.  It can be deployed to your own infrastructure, or you can consume it as SaaS.
 
 * An Agent
 
