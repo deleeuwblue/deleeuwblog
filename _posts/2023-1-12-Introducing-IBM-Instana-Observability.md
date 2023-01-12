@@ -24,7 +24,7 @@ Instana provides agents for infrastructure hosts, platforms (like Kubernetes), p
 
 Let's give it a try by observing an OpenShift cluster.  From the Instana menu `More->Agents->Installing Instana Agents`, instructions are provided to download and install the agent.  For OpenShift, there is a choice of Operator, Helm or Yaml based installation.  I downloaded the yaml which is prepopulated with the connection details for the Instana backend:
 
-![instanaInstallAgent](./images/l1-instanaInstallAgent.png)
+![instanaInstallAgent](https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-12-Introducing-IBM-Instana-Observability/l1-instanaInstallAgent.png)
 
 Before applying the yaml, create the project and privileges to allow Instana to monitor all of OpenShift.
 
@@ -51,10 +51,10 @@ instana-agent-tpn6t   2/2     Running   0          6h14m
 
 My OpenShift cluster was successfully added to Instana:
 
-![clusterAdded](./images/l1-clusterAdded.png)
+![clusterAdded](https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-12-Introducing-IBM-Instana-Observability/l1-clusterAdded.png)
 
 The details view demonstrates how the agent has discovered all the details of the OpenShift platform, for example all the Kubernetes resources and infrastructure:
 
-![clusterDetails](./images/l1-clusterDetails.png)
+![clusterDetails](https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-12-Introducing-IBM-Instana-Observability/l1-clusterDetails.png)
 
 In subsequent blogs I will demonstrate some of the key features which lay claim to Instana's capability of making complex systems highly observable.
