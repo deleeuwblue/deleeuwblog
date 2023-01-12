@@ -4,7 +4,7 @@ date: 2023-01-12 09:00:00 +/-0000
 categories: [IBM Instana, General Information]
 tags: [aiops, apm]     # TAG names should always be lowercase
 image: https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-12-Introducing-IBM-Instana-Observability/instana.png
-img_path: /assets/img/2023-1-12-Observing-Cloud-Native-Applications-With-IBM-Instana/
+img_path: /assets/img/2023-1-12-Introducing-IBM-Instana-Observability/
 ---
 In the past, debugging software mostly involved looking at the error logs.  That was fine for simple solutions, developed and managed by small teams.  However, software has evolved from monoliths to microservices, with software comprised of disparate services, using multiple runtimes and platforms.  This has given rise to a DevOps approach to building and running software, and a requirement for new tools to more efficiently establish the casues of problems in a constantly changing environment.  Instana provides a real-time, automated Enterprise Observability Platform that helps Site Reliability Engineers improve the reliability and resiliency of cloud-native applications.
 
