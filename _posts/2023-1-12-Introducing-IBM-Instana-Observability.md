@@ -4,6 +4,7 @@ date: 2023-01-12 09:00:00 +/-0000
 categories: [IBM Instana, General Information]
 tags: [aiops, apm]     # TAG names should always be lowercase
 image: https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-12-Introducing-IBM-Instana-Observability/instana.png
+img_path: /assets/img/2023-1-12-Observing-Cloud-Native-Applications-With-IBM-Instana/
 ---
 In the past, debugging software mostly involved looking at the error logs.  That was fine for simple solutions, developed and managed by small teams.  However, software has evolved from monoliths to microservices, with software comprised of disparate services, using multiple runtimes and platforms.  This has given rise to a DevOps approach to building and running software, and a requirement for new tools to more efficiently establish the casues of problems in a constantly changing environment.  Instana provides a real-time, automated Enterprise Observability Platform that helps Site Reliability Engineers improve the reliability and resiliency of cloud-native applications.
 
@@ -23,7 +24,7 @@ Instana provides agents for infrastructure hosts, platforms (like Kubernetes), p
 
 Let's give it a try by observing an OpenShift cluster.  From the Instana menu `More->Agents->Installing Instana Agents`, instructions are provided to download and install the agent.  For OpenShift, there is a choice of Operator, Helm or Yaml based installation.  I downloaded the yaml which is prepopulated with the connection details for the Instana backend:
 
-![instanaInstallAgent](/assets/img/2023-1-12-Introducing-IBM-Instana-Observability/l1-instanaInstallAgent.png)
+![instanaInstallAgent](l1-instanaInstallAgent.png)
 
 Before applying the yaml, create the project and privileges to allow Instana to monitor all of OpenShift.
 
@@ -50,10 +51,10 @@ instana-agent-tpn6t   2/2     Running   0          6h14m
 
 My OpenShift cluster was successfully added to Instana:
 
-![clusterAdded](/assets/img/2023-1-12-Introducing-IBM-Instana-Observability/l1-clusterAdded.png)
+![clusterAdded](l1-clusterAdded.png)
 
 The details view demonstrates how the agent has discovered all the details of the OpenShift platform, for example all the Kubernetes resources and infrastructure:
 
-![clusterDetails](/assets/img/2023-1-12-Introducing-IBM-Instana-Observability/l1-clusterDetails.png)
+![clusterDetails](l1-clusterDetails.png)
 
 In subsequent blogs I will demonstrate some of the key features which lay claim to Instana's capability of making complex systems highly observable.
