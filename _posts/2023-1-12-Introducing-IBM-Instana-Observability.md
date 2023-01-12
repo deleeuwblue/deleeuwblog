@@ -22,38 +22,3 @@ This provides the UI.  It can be deployed to your own infrastructure, or you can
 Instana provides agents for infrastructure hosts, platforms (like Kubernetes), public clouds, web and mobile.  Generally speaking, the agents collect and aggregate data from multiple 'sensors', which is sent to the Instana backend.  This is a key capability of Instana - automatic discovery and monitoring of all components, both physical (e.g hosts, containers, processes) and logical (e.g. services, endpoints, calls, traces).
 
 Let's give it a try by observing an OpenShift cluster.  From the Instana menu `More->Agents->Installing Instana Agents`, instructions are provided to download and install the agent.  For OpenShift, there is a choice of Operator, Helm or Yaml based installation.  I downloaded the yaml which is prepopulated with the connection details for the Instana backend:
-
-![instanaInstallAgent](https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-12-Introducing-IBM-Instana-Observability/l1-instanaInstallAgent.png)
-
-Before applying the yaml, create the project and privileges to allow Instana to monitor all of OpenShift.
-
-```sh
-oc login -u system:admin
-oc new-project instana-agent
-oc adm policy add-scc-to-user privileged -z instana-agent -n instana-agent
-```
-
-Install the agent:
-
-```sh
-oc create -f configuration.yaml
-```
-
-The agent is deployed:
-
-```sh
-oc get pod -n instana-agent
-NAME                  READY   STATUS    RESTARTS   AGE
-instana-agent-kvxx2   2/2     Running   0          6h14m
-instana-agent-tpn6t   2/2     Running   0          6h14m
-```
-
-My OpenShift cluster was successfully added to Instana:
-
-![clusterAdded](https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-12-Introducing-IBM-Instana-Observability/l1-clusterAdded.png)
-
-The details view demonstrates how the agent has discovered all the details of the OpenShift platform, for example all the Kubernetes resources and infrastructure:
-
-![clusterDetails](https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-12-Introducing-IBM-Instana-Observability/l1-clusterDetails.png)
-
-In subsequent blogs I will demonstrate some of the key features which lay claim to Instana's capability of making complex systems highly observable.
