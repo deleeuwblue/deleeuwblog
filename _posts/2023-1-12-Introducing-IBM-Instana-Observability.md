@@ -58,7 +58,3 @@ The details view demonstrates how the agent has discovered all the details of th
 ![clusterDetails](https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-12-Introducing-IBM-Instana-Observability/l1-clusterDetails.png)
 
 In subsequent blogs I will demonstrate some of the key features which lay claim to Instana's capability of making complex systems highly observable.
-
-
-
-![image](/assets/img/2023-1-12-Introducing-IBM-Instana-Observability/l1-instanaInstallAgent.png)
