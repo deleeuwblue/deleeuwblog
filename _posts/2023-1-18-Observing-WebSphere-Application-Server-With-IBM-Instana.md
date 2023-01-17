@@ -99,16 +99,3 @@ Clicking the WebSphere link displays all the WAS specific metrics:
 
 ![wasMetrics](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/wasMetrics.png)
 
-
-Other views show the top endpoints for the WAS `DefaultApplication`, which typically includes a server `server1` and some samples:
-
-![defaultWebApplication](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/defaultWebApplication.png)
-
-Returning to the `deleeuw-vsi-host` in the `Infrastructure` view, you can use the `Stack` button to see the processes running on the host, including the WAS JVM:
-
-![vsiStackJVM](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/vsiStackJVM.png)
-
-Selecting the JVM shows the Java specific metrics:
-
-![fullJVMStats](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/fullJvmStats.png)
-
