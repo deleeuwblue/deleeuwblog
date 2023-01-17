@@ -21,3 +21,9 @@ You can expect Instana to tie together everything from infrastructure, WAS appli
 Having already installed WAS 9 on an Ubuntu, I also need to install the Instana agent onto the host.  Instana provides several options to achieve this.  I simply ran the script:
 
 ![instanaAgentLinux](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/instanaAgentLinux.png)
+
+Instana provides an Infrastracture view which locates and observe specific hosts.  It uses a query syntax providing entities to query on, e.g. by host name, application, platform etc.  I used a simple query to locate the host where I had installed the Instana agent:
+
+![hostListed1](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/hostListed1.png)
+
+The host was listed as expected.  However, it showed a zone of "undefined".  When installing the agent on IaaS from some clouds (e.g. AWS), this would be configured automatically.  If not, it's possible to manually set the zone information, which helps to organise the infrastructure monitored by Instana.  The agent is configured by the `/opt/instana/agent/etc/instana/configuration.yaml`, see the [documentation](https://www.ibm.com/docs/en/instana-observability/current?topic=agent-host-configuration#custom-zones) for more detail.  I added the following:
