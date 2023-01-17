@@ -25,7 +25,7 @@ There are two approaches to extract the model from the provided containers:
 
 * Launch the model containers with a local volume mount
 
-The containers copy the model files to a specifed path, then exit.  If that path is a local volume mount, you then have the model data locally.  You can then use a Dockerfile to copy the files into the custom image.
+The containers copy the model files to a specified path, then exit.  If that path is a local volume mount, you then have the model data locally.  You can then use a Dockerfile to copy the files into the custom image.
 
 * Use a multi-stage Dockerfile
 

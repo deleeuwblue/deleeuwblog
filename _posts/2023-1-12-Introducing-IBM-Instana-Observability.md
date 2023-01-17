@@ -5,7 +5,7 @@ categories: [IBM Instana, General Information]
 tags: [aiops, apm]     # TAG names should always be lowercase
 image: https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-12-Introducing-IBM-Instana-Observability/instana.png
 ---
-In the past, debugging software mostly involved looking at the error logs.  That was fine for simple solutions, developed and managed by small teams.  However, software has evolved from monoliths to microservices, with software comprised of disparate services, using multiple runtimes and platforms.  This has given rise to a DevOps approach to building and running software, and a requirement for new tools to more efficiently establish the casues of problems in a constantly changing environment.  Instana provides a real-time, automated Enterprise Observability Platform that helps Site Reliability Engineers improve the reliability and resiliency of cloud-native applications.
+In the past, debugging software mostly involved looking at the error logs.  That was fine for simple solutions, developed and managed by small teams.  However, software has evolved from monoliths to microservices, with software comprised of disparate services, using multiple runtimes and platforms.  This has given rise to a DevOps approach to building and running software, and a requirement for new tools to more efficiently establish the causes of problems in a constantly changing environment.  Instana provides a real-time, automated Enterprise Observability Platform that helps Site Reliability Engineers improve the reliability and resiliency of cloud-native applications.
 
 Instana [supports a broad list of technologies](https://www.instana.com/supported-technologies/), including many programming languages and frameworks, infrastructure, platforms and cloud services.  It captures 100% of requests and transactions to provide metrics, logs and full end to end traces across the environments.  Included in the list of supported technology is middleware from IBM, i.e. IBM MQ, WebSphere Application Server (WAS), WebSphere Liberty, and IBM DB2.
 
@@ -21,7 +21,7 @@ This provides the UI.  It can be deployed to your own infrastructure, or you can
 
 Instana provides agents for infrastructure hosts, platforms (like Kubernetes), public clouds, web and mobile.  Generally speaking, the agents collect and aggregate data from multiple 'sensors', which is sent to the Instana backend.  This is a key capability of Instana - automatic discovery and monitoring of all components, both physical (e.g hosts, containers, processes) and logical (e.g. services, endpoints, calls, traces).
 
-Let's give it a try by observing an OpenShift cluster.  From the Instana menu `More->Agents->Installing Instana Agents`, instructions are provided to download and install the agent.  For OpenShift, there is a choice of Operator, Helm or Yaml based installation.  I downloaded the yaml which is prepopulated with the connection details for the Instana backend:
+Let's give it a try by observing an OpenShift cluster.  From the Instana menu `More->Agents->Installing Instana Agents`, instructions are provided to download and install the agent.  For OpenShift, there is a choice of Operator, Helm or Yaml based installation.  I downloaded the yaml which is pre-populated with the connection details for the Instana backend:
 
 ![instanaInstallAgent](/assets/img/2023-1-12-Introducing-IBM-Instana-Observability/l1-instanaInstallAgent.png)
 

@@ -122,10 +122,10 @@ componentName
 : The Deployment and Services will be named using a combination of the Helm release, and this property.
 
 serviceType
-: The type of Kubernetes Service used to expose the watson-runtime container. Valid values are according to the Kuberenetes specification.
+: The type of Kubernetes Service used to expose the watson-runtime container. Valid values are according to the Kubernetes specification.
 
 registries
-: A list of all registries assosiated with the Deployment. At a minimum, there will be a registry from which to pull the watson-runtime container and IBM provided pretrained models. Additionally, there could be a separate registry containing custom models.
+: A list of all registries associated with the Deployment. At a minimum, there will be a registry from which to pull the watson-runtime container and IBM provided pre-trained models. Additionally, there could be a separate registry containing custom models.
 
 imagePullSecrets
 : A list of pull secret names that the Deployment will reference. At a minimum, the pull secret for the IBM entitled registry/Artifactory should be provided. Additional pull secrets can be specified if there is a separate registry for custom models.

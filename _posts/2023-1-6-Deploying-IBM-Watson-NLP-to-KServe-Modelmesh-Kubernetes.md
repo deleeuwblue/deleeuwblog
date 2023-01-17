@@ -184,7 +184,7 @@ triton-2.x                      keras         triton               7m6s
 watson-nlp-runtime              watson-nlp    watson-nlp-runtime   7s
 ```
 
-## Upload a pretrained Watson NLP model to Cloud Object Storage
+## Upload a pre-trained Watson NLP model to Cloud Object Storage
 
 The next step is to upload a model to object storage.  Watson NLP provides pre-trained models as containers, which are usually run as init containers to copy their data to a volume shared with the watson-nlp-runtime, see [Deployments to Kubernetes using yaml files or helm charts]({% post_url 2023-1-5-Deploying-IBM-Watson-NLP-to-Kubernetes %}).  When using Modelmesh, the goal is to copy the model data to COS.  To achieve this, we can run the model container as a k8s Job, where the model container is configured to write to COS instead of a local volume mount.
 
@@ -231,7 +231,7 @@ kubectl apply -f watson-embed-demos/nlp/modelmesh-serving/job.yaml --namespace m
 
 ## Create a InferenceService for the Syntax model
 
-Finally, an InferenceService CR needs to be created to make the model available via the watson-nlp Serving Runtime that we already created.  This resource defines the location for model `syntax-izumo-en` in COS.  It also specifies a `modelFormat` of `watson-nlp` which will assosiate the model with the `watson-nlp-runtime` serving runtime.
+Finally, an InferenceService CR needs to be created to make the model available via the watson-nlp Serving Runtime that we already created.  This resource defines the location for model `syntax-izumo-en` in COS.  It also specifies a `modelFormat` of `watson-nlp` which will associate the model with the `watson-nlp-runtime` serving runtime.
 
 ```yaml
 apiVersion: serving.kserve.io/v1beta1

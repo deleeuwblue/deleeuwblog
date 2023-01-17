@@ -14,7 +14,7 @@ For deployment to Kubernetes, see this [blog]({% post_url 2023-1-6-Deploying-IBM
 
 ## Introducing KServe
 
-[KServe](https://github.com/kserve/kserve) is a standard model inference platform on k8s.  It is built for highly scalable use cases and supports existing thrid party model servers and standard ML/DL model formats, or it can be extended to support additional runtimes like the Watson NLP runtime.
+[KServe](https://github.com/kserve/kserve) is a standard model inference platform on k8s.  It is built for highly scalable use cases and supports existing third party model servers and standard ML/DL model formats, or it can be extended to support additional runtimes like the Watson NLP runtime.
 
 [Modelmesh Serving](https://github.com/kserve/modelmesh-serving) is intended to further increase KServe's scalability, especially when there are a large number of models which change frequently.  It intelligently loads and unloads models into memory from from cloud object storage (COS), to strike a trade-off between responsiveness to users and computational footprint.
 
@@ -207,7 +207,7 @@ oc scale deployment/modelmesh-controller --replicas=1 --all
 
 ## Configure a ServingRuntime for Watson NLP
 
-An example [ServingRuntime resource](https://github.com/deleeuwblue/watson-embed-demos/blob/main/nlp/modelmesh-serving/servingruntime.yaml) is provided.  The serving runtime defines the `cp.icr.io/cp/ai/watson-nlp-runtime` container image should be used to serve models that specify `watson-nlp` as their model format.  Note that `ServingRuntime` recommended by the [official documentation](https://www.ibm.com/docs/en/watson-libraries?topic=containers-run-kubernetes-kserve-modelmesh-serving) includes resource limits.  Becasause I was testing with a small OpenShift cluster, I needed to comment these out.
+An example [ServingRuntime resource](https://github.com/deleeuwblue/watson-embed-demos/blob/main/nlp/modelmesh-serving/servingruntime.yaml) is provided.  The serving runtime defines the `cp.icr.io/cp/ai/watson-nlp-runtime` container image should be used to serve models that specify `watson-nlp` as their model format.  Note that `ServingRuntime` recommended by the [official documentation](https://www.ibm.com/docs/en/watson-libraries?topic=containers-run-kubernetes-kserve-modelmesh-serving) includes resource limits.  Because I was testing with a small OpenShift cluster, I needed to comment these out.
 
 ```yaml
 apiVersion: serving.kserve.io/v1alpha1
@@ -322,7 +322,7 @@ The minio GUI shows the uploaded model data:
 
 ## Create a InferenceService for the Syntax model
 
-Finally, an InferenceService CR needs to be created to make the model available via the watson-nlp Serving Runtime that we already created.  This resource defines the location for model `syntax-izumo-en` in COS.  It also specifies a `modelFormat` of `watson-nlp` which will assosiate the model with the `watson-nlp-runtime` serving runtime.
+Finally, an InferenceService CR needs to be created to make the model available via the watson-nlp Serving Runtime that we already created.  This resource defines the location for model `syntax-izumo-en` in COS.  It also specifies a `modelFormat` of `watson-nlp` which will associate the model with the `watson-nlp-runtime` serving runtime.
 
 ```yaml
 apiVersion: serving.kserve.io/v1beta1

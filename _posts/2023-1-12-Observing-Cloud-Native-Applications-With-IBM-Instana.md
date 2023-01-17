@@ -69,7 +69,7 @@ I used the provided [Deployment](https://github.com/instana/robot-shop/blob/mast
 
 ## Create an Instanan Application Perspective
 
-An [Application Perspective](https://www.instana.com/blog/the-basics-of-instana-application-perspectives/) groups together different services and endpoints which share a context, i.e.they are all assosiated with the same application.  Application Perspectives can also be role specific, allowing Developers or DevOps to organise and visualise the exact information they need.
+An [Application Perspective](https://www.instana.com/blog/the-basics-of-instana-application-perspectives/) groups together different services and endpoints which share a context, i.e.they are all associated with the same application.  Application Perspectives can also be role specific, allowing Developers or DevOps to organise and visualise the exact information they need.
 
 I created an application perspective for the `Robot-shop` namespace, running in the `deleeuw-demo-zone`.  I also added a query to define a specific cluster within the zone.
 
@@ -79,7 +79,7 @@ This is the resulting dashboard for the application perspective.
 
 ![appPerspective](/assets/img/2023-1-12-Observing-Cloud-Native-Applications-With-IBM-Instana/l1-appPerspective3.png)
 
-It includes key metrics that would be useful to an SRE tasked with overseeing the `robot-shop` application.  All metrics can be reviewed over a specific period of time, or live with per second granularity.  In addition, Instana builds a context of upstream and downstream services, and related physical infrastructure.  A good example of this is the dependency diagram which shows traffic flows between the services of the aplication, and highlights any issues.
+It includes key metrics that would be useful to an SRE tasked with overseeing the `robot-shop` application.  All metrics can be reviewed over a specific period of time, or live with per second granularity.  In addition, Instana builds a context of upstream and downstream services, and related physical infrastructure.  A good example of this is the dependency diagram which shows traffic flows between the services of the application, and highlights any issues.
 
 ![dependency](/assets/img/2023-1-12-Observing-Cloud-Native-Applications-With-IBM-Instana/dependency.png)
 
@@ -101,7 +101,7 @@ An endpoint can be expanded (in this case `/login') to show individual service c
 
 ![userEndpoints](/assets/img/2023-1-12-Observing-Cloud-Native-Applications-With-IBM-Instana/loginRequests.png)
 
-For each request, you can view a detailed breakdown of the steps the `/login` endpoint exected.  In this case, the entire duration of `/login` was 6ms, and included a 5ms service call to `users.users` endpoint of the `users` Mongodb service.  You can also see a detailed stack trace of each step, which would be invaluable if for example some requests were taking longer or returning errors.
+For each request, you can view a detailed breakdown of the steps the `/login` endpoint expected.  In this case, the entire duration of `/login` was 6ms, and included a 5ms service call to `users.users` endpoint of the `users` Mongodb service.  You can also see a detailed stack trace of each step, which would be invaluable if for example some requests were taking longer or returning errors.
 
 ![individualLoginRequest](/assets/img/2023-1-12-Observing-Cloud-Native-Applications-With-IBM-Instana/individualLoginRequest.png)
 
@@ -145,7 +145,7 @@ For services that use Java, you can also view the JVM statistics.  For example, 
 
 ![shippingPodJava](/assets/img/2023-1-12-Observing-Cloud-Native-Applications-With-IBM-Instana/l2-shippingPodJava.png)
 
-Select the pod, followed by `Stack->Infrastructure` to see the assosiated JVM.
+Select the pod, followed by `Stack->Infrastructure` to see the associated JVM.
 
 ![shippingPodStack](/assets/img/2023-1-12-Observing-Cloud-Native-Applications-With-IBM-Instana/l2-shippingPodStack.png)
 
@@ -165,14 +165,14 @@ Alerts can be configured with `Alerts->New Alert`.  Alerts can be triggered on:
 * Individual Events - Many are built in and apply to specific entities, e.g. 'Tomcat has reached a maximum number of connections'.  Custom events can also be created.
 * Smart Events - These relate to the end user experience of a website, including website slowness, JavaScript errors, HTTP errors etc.  Instana can automatically generate these events for the web application, including setting appropriate thresholds.
 
-By default, an alert message will include some "global payload", e.g. relevant data like application, namespace, IP addresses etc.  It is also possible to augment or overide these values with additional payload fields on an per alert basis.
+By default, an alert message will include some "global payload", e.g. relevant data like application, namespace, IP addresses etc.  It is also possible to augment or override these values with additional payload fields on an per alert basis.
 
 I created an alert for event types (Incidents, Critical issues & offline).  It was scoped to the deleeuw-robot-shop application perspective and I used an alert channel which sends an email to me.
 
 ![](/assets/img/2023-1-12-Observing-Cloud-Native-Applications-With-IBM-Instana/l5-alertSetup1.png)
 ![](/assets/img/2023-1-12-Observing-Cloud-Native-Applications-With-IBM-Instana/l5-alertSetup2.png)
 
-I tested the alert by deleting the pod running the Shipping service.  This triggered several email alerts, including an `Issue` that the replica count had depleted, and an `Offline` when the Shipping service and its assosiated infrastructure were not running.
+I tested the alert by deleting the pod running the Shipping service.  This triggered several email alerts, including an `Issue` that the replica count had depleted, and an `Offline` when the Shipping service and its associated infrastructure were not running.
 
 The alert emails contained links which direct to the Events tab on Instana, for example the `Issue` alert showed the depleted replica count:
 
