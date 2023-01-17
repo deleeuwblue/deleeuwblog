@@ -109,3 +109,29 @@ Returning to the `deleeuw-vsi-host` in the `Infrastructure` view, you can use th
 
 Selecting the JVM shows the Java specific metrics:
 
+TODO
+
+## Setting up Alerts
+
+Let's set up an alert using one of the built-in 'Health Signatures' that Instana defines for WAS.  I created an Alert, scoped to the `deleeuw-vsi-wasNode01` WAS Node, which will be triggered if the WebContainer thread pool is reaching its maximum limit.  If the alert is triggered, I should be notified via an email alert channel I had previously configured:
+
+![wasAlert](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/wasAlert.png)
+
+To test this out, I placed an extreme limit on WAS by restricting the WebContainer thread pool to just three:
+
+![reduceWebContainerThreadPool](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/reduceWebContainerThreadPool.png)
+
+I used some simple curl commands to interact with the typical samples like /snoop, /hello and /hitcount.  Pretty quickly the WebContainer thread pool increased, nearing the maximum size, which triggered an issue in the UI:
+
+![threadPoolAlert](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/threadPoolAlert.png)
+
+Due to the Alert via email configuration created previously, I also received email notification:
+
+![alertEmail](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/alertEmail.png)
+
+For more information about using Instana to observe WAS, see these resources:
+
+* [Augmenting IBM’s WebSphere with Instana webinar](https://www.instana.com/webinars/augmenting-ibms-websphere-with-instana/?es_id=65a8d8a6a2)
+* [Monitoring WebSphere AS](https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-websphere-as)
+* [WAS specific metrics](https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-websphere-as)
+* [WAS health signatures](https://www.ibm.com/docs/en/instana-observability/current?topic=references-built-in-events-reference#websphere)
