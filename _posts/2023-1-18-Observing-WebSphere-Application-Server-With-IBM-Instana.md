@@ -43,3 +43,99 @@ The change took immediate effect.  Instana provides the following dashboard show
 Be aware of some [IBM J9 limitations](https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-java-virtual-machine#ibm-j9-limitations) with the requirement for additional Java command line settings which differ for SDK 6 or 7, and SDK 8.  I am using SDK 8 and the recommendation is to set an `-javaagent` property using an [Instana agent jar](https://github.com/instana/instana-javaagent) (`instana-javaagent-1.0.0.jar`).  An alternative is possible using only option `-XX:+EnableHCR`, but apparently this may have a slight performance impact and will be deprecated in future.
 
 Let's create a WAS profile and set the `-javaagent` property:
+
+```sh
+cd /opt/IBM/WebSphere/AppServer
+./manageprofiles.sh -create
+```
+
+The result was as follows, including a warning which should be resolved after we add the `-javaagent` to the JVM command line.
+
+```sh
+*** java.lang.instrument ASSERTION FAILED ***: "jvmtierror == JVMTI_ERROR_NOT_AVAILABLE" at JPLISAgent.c line: 1009
+INSTCONFSUCCESS: Success: Profile AppSrv01 now exists. Please consult /opt/IBM/WebSphere/AppServer/profiles/AppSrv01/logs/AboutThisProfile.txt for more information about this profile.
+```
+
+Start the server `server1`:
+
+```
+/opt/IBM/WebSphere/AppServer/bin
+./startServer.sh server1
+```
+
+The response is:
+
+```
+ADMU0128I: Starting tool with the AppSrv01 profile
+ADMU3100I: Reading configuration for server: server1
+ADMU3200I: Server launched. Waiting for initialization status.
+ADMU3000I: Server server1 open for e-business; process id is 11597
+```
+
+Download the `instana-javaagent-1.0.0.jar`:
+
+```sh
+mvn dependency:copy -Dartifact=com.instana:instana-javaagent:1.0.0 -DoutputDirectory=/instana
+```
+
+Use the WAS admin console to update the JVM process definition:
+
+![jvmUpdated2](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/jvmUpdated2.png)
+
+Restart the application server:
+
+```sh
+./stopServer.sh server1
+./startServer.sh server1
+```
+
+## Observing WAS
+
+The WAS node is now visible in Instana:
+
+![wasObserved](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/wasObserved.png)
+
+Clicking the WebSphere link displays all the WAS specific metrics:
+
+![wasMetrics](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/wasMetrics.png)
+
+
+Other views show the top endpoints for the WAS `DefaultApplication`, which typically includes a server `server1` and some samples:
+
+![defaultWebApplication](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/defaultWebApplication.png)
+
+Returning to the `deleeuw-vsi-host` in the `Infrastructure` view, you can use the `Stack` button to see the processes running on the host, including the WAS JVM:
+
+![vsiStackJVM](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/vsiStackJVM.png)
+
+Selecting the JVM shows the Java specific metrics:
+
+![fullJVMStats](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/fullJVMStats.png)
+
+
+## Setting up Aletrs
+
+Let's set up an alert using one of the built-in 'Health Signatures' that Instana defines for WAS.  I created an Alert, scoped to the `deleeuw-vsi-wasNode01` WAS Node, which will be triggered if the WebContainer thread pool is reaching its maximum limit.  If the alert is triggered, I should be notifed via an email alert channel I had previously configured:
+
+![wasAlert](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/wasAlert.png)
+
+To test this out, I placed an extreme limit on WAS by restricting the WebContainer thread pool to just three:
+
+![reduceWebContainerThreadPool](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/reduceWebContainerThreadPool.png)
+
+I used some simple curl commands to interact with the typical samples like /snoop, /hello and /hitcount.  Pretty quickly the WebContainer thread pool increased, nearing the maximum size, which triggered an issue in the UI:
+
+![threadPoolAlert](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/threadPoolAlert.png)
+
+Due to the Alert via email configuration created previously, I also received email notification:
+
+![alertEmail](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/alertEmail.png)
+
+
+For more information about using Instana to observe WAS, see these resources:
+
+
+* [Augmenting IBM’s WebSphere with Instana webinar](https://www.instana.com/webinars/augmenting-ibms-websphere-with-instana/?es_id=65a8d8a6a2)
+* [Monitoring WebSphere AS](https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-websphere-as)
+* [WAS specific metrics](https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-websphere-as)
+* [WAS health signatures](https://www.ibm.com/docs/en/instana-observability/current?topic=references-built-in-events-reference#websphere)
