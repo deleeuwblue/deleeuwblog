@@ -99,3 +99,6 @@ Clicking the WebSphere link displays all the WAS specific metrics:
 
 ![wasMetrics](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/wasMetrics.png)
 
+Other views show the top endpoints for the WAS `DefaultApplication`, which typically includes a server `server1` and some samples:
+
+![defaultWebApplication](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/defaultWebApplication.png)
