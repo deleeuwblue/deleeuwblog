@@ -110,4 +110,4 @@ Returning to the `deleeuw-vsi-host` in the `Infrastructure` view, you can use th
 
 Selecting the JVM shows the Java specific metrics:
 
-![fullJVMStats](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/fullJVMStats.png)
+![fullJVMStats](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/fullJvmStats.png)
