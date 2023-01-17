@@ -27,3 +27,19 @@ Instana provides an Infrastracture view which locates and observe specific hosts
 ![hostListed1](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/hostListed1.png)
 
 The host was listed as expected.  However, it showed a zone of "undefined".  When installing the agent on IaaS from some clouds (e.g. AWS), this would be configured automatically.  If not, it's possible to manually set the zone information, which helps to organise the infrastructure monitored by Instana.  The agent is configured by the `/opt/instana/agent/etc/instana/configuration.yaml`, see the [documentation](https://www.ibm.com/docs/en/instana-observability/current?topic=agent-host-configuration#custom-zones) for more detail.  I added the following:
+
+```yaml
+com.instana.plugin.generic.hardware:
+  enabled: true # disabled by default
+  availability-zone: 'IBM Cloud/WAS'
+```
+
+The change took immediate effect.  Instana provides the following dashboard showing metrics for the `deleeuw-vsi-was` host:
+
+![instanaAgentLinux](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/vsiDashboard.png)
+
+## Configuring WAS for Instana
+
+Be aware of some [IBM J9 limitations](https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-java-virtual-machine#ibm-j9-limitations) with the requirement for additional Java command line settings which differ for SDK 6 or 7, and SDK 8.  I am using SDK 8 and the recommendation is to set an `-javaagent` property using an [Instana agent jar](https://github.com/instana/instana-javaagent) (`instana-javaagent-1.0.0.jar`).  An alternative is possible using only option `-XX:+EnableHCR`, but apparently this may have a slight performance impact and will be deprecated in future.
+
+Let's create a WAS profile and set the `-javaagent` property:
