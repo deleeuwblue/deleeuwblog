@@ -55,3 +55,36 @@ The result was as follows, including a warning which should be resolved after we
 *** java.lang.instrument ASSERTION FAILED ***: "jvmtierror == JVMTI_ERROR_NOT_AVAILABLE" at JPLISAgent.c line: 1009
 INSTCONFSUCCESS: Success: Profile AppSrv01 now exists. Please consult /opt/IBM/WebSphere/AppServer/profiles/AppSrv01/logs/AboutThisProfile.txt for more information about this profile.
 ```
+
+Start the server `server1`:
+
+```
+/opt/IBM/WebSphere/AppServer/bin
+./startServer.sh server1
+```
+
+The response is:
+
+```
+ADMU0128I: Starting tool with the AppSrv01 profile
+ADMU3100I: Reading configuration for server: server1
+ADMU3200I: Server launched. Waiting for initialization status.
+ADMU3000I: Server server1 open for e-business; process id is 11597
+```
+
+Download the `instana-javaagent-1.0.0.jar`:
+
+```sh
+mvn dependency:copy -Dartifact=com.instana:instana-javaagent:1.0.0 -DoutputDirectory=/instana
+```
+
+Use the WAS admin console to update the JVM process definition:
+
+![jvmUpdated2](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/jvmUpdated2.png)
+
+Restart the application server:
+
+```sh
+./stopServer.sh server1
+./startServer.sh server1
+```
