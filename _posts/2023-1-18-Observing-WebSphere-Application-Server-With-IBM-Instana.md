@@ -19,3 +19,5 @@ You can expect Instana to tie together everything from infrastructure, WAS appli
 ## Installing the Instana Agent
 
 Having already installed WAS 9 on an Ubuntu, I also need to install the Instana agent onto the host.  Instana provides several options to achieve this.  I simply ran the script:
+
+![instanaAgentLinux](/assets/img/2023-1-18-Observing-WebSphere-Application-Server-With-IBM-Instana/instanaAgentLinux.png)
