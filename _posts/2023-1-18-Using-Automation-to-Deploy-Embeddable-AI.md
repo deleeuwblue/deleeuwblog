@@ -3,7 +3,7 @@ title: Using Automation to Deploy Embeddable AI to Kubernetes
 date: 2023-01-18 09:00:00 +/-0000
 categories: [IBM Watson for Embed, NLP]
 tags: [ai, nlp, kubernetes, openshift, terraform, argocd, gitops]     # TAG names should always be lowercase
-image: https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-18-Using-Automation-to-Deploy-Embeddable-AI/terraformArgoSmall.png
+image: https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-1-18-Using-Automation-to-Deploy-Embeddable-AI/terraformArgoSmall2.png
 ---
 In a previous blog [introducing IBM Watson for Embed]({% post_url 2023-1-2-Introducing-IBM-Watson-for-Embed %}), I introduced the IBM Watson Libraries for Embed.  They provide a common framework to help ISVs embed AI including natural language processing (NLP) and speech into their solutions.
 
