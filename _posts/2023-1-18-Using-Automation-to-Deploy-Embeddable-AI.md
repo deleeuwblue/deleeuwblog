@@ -3,9 +3,9 @@ title: Using Automation to Deploy Embeddable AI to Kubernetes
 date: 2023-01-18 09:00:00 +/-0000
 categories: [IBM Watson for Embed, NLP]
 tags: [ai, nlp, kubernetes, openshift, terraform, argocd, gitops]     # TAG names should always be lowercase
-image: https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/image.png/terraformAndArgo.png
+image: https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/terraformAndArgo.png
 ---
-In a [previous blog]({{ site.baseurl }}/Introducing-IBM-Watson-for-Embed), I introduced the IBM Watson Libraries for Embed.  They provide a common framework to help ISVs embed AI including natural language processing (NLP) and Speech into their solutions.
+In a previous blog [introducing IBM Watson for Embed]({% post_url 2023-1-2-Introducing-IBM-Watson-for-Embed %}), I introduced the IBM Watson Libraries for Embed.  They provide a common framework to help ISVs embed AI including natural language processing (NLP) and Speech into their solutions.
 
 The Watson Libraries are shipped as containers which can be run standalone for testing and learning, but when it's time for a more scalable environment, it's likely you'll want to deploy to a Kubernetes platform.  Further more, if you're frequently creating and destroying environments (i.e. for POCs, demos, production etc), then you can benefit from 'Everything as Code' automation using the IBM TechZone Deployer, which is the focus of this blog.
 
