@@ -9,7 +9,7 @@ In a previous blog [introducing IBM Watson for Embed]({% post_url 2023-1-2-Intro
 
 The Watson Libraries are shipped as containers which can be run standalone for testing and learning, but when it's time for a more scalable environment, it's likely you'll want to deploy to a Kubernetes platform.  Further more, if you're frequently creating and destroying environments (i.e. for POCs, demos, production etc), then you can benefit from 'Everything as Code' automation using the IBM TechZone Deployer, which is the focus of this blog.
 
-## Automate 'Everything as Code' using a combination of Terraform and Argo CD Terraform
+## Automate 'Everything as Code' using a combination of Terraform and Argo CD
 
 The main advantage of handling infrastructure as code is that with a declarative approach, changes can tracked easily and human errors can be reduced.  
 
@@ -41,7 +41,7 @@ Complete solutions are defined in yaml files.  These bill of materials contain a
 
 There is also a CLI called iascable.  It is used to convert the bill of materials into Terraform assets.  A container image is also provided which comes with all tools necessary to run the generated Terraform.
 
-## Deployment Automation for Watson NLP Library for Embed
+## Deployment Automation of Watson NLP Library for Embed
 
 In the example bill of materials file, the following layers are configured:
 
