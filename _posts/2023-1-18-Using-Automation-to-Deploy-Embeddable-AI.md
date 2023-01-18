@@ -120,7 +120,7 @@ cd cluster-with-watson-nlp
 
 The `apply.sh` command takes approximately 45 minutes to set up the managed OpenShift cluster in IBM Cloud and install the additional modules.
 
-Argo CD will be set up on OpenShift to deploy the Watson NLP library container and the UBI application sample.  The Kubernetes resources to achieve this (via Helm charts) are created in the GitOps repo by the Terraform modules.  Argo CD deploys the resources to the cluster and ensures the cluster is synchronised with any future updates committed to the GitOps repo, i.e. as a result of a CI/CD pipeline run.
+Argo CD will be set up on OpenShift to deploy the Watson NLP library container and the UBI application sample.  The Kubernetes resources to achieve this (via Helm charts) are created in the GitOps repo by the Terraform modules.  Argo CD deploys the resources to the cluster and ensures the cluster is synchronised with any future updates committed to the GitOps repo, i.e. as a result of a CI/CD pipeline run:
 
 ![argoCDTZD](/assets/img/2023-1-18-Using-Automation-to-Deploy-Embeddable-AI/argoCDTZD.png)
 
@@ -128,10 +128,10 @@ Kubernetes Deployments for the Watson NLP and UBI applications are created on th
 
 ![deploymentTZD](/assets/img/2023-1-18-Using-Automation-to-Deploy-Embeddable-AI/deploymentTZD.png)
 
-A Service resource allows the UBI or other pods to invoke the Watson NLP libraries
+A Service resource allows the UBI or other pods to invoke the Watson NLP libraries:
 
 ![serviceTZD](/assets/img/2023-1-18-Using-Automation-to-Deploy-Embeddable-AI/serviceTZD.png)
 
-If you were to exec into the container of the UBI application pod, you could use gRPC or REST to invoke the NLP runtime, which was loaded with the IBM provided Syntax model.
+If you were to exec into the container of the UBI application pod, you could use gRPC or REST to invoke the NLP runtime, which was loaded with the IBM provided Syntax model:
 
 ![testingSyntaxTZD](/assets/img/2023-1-18-Using-Automation-to-Deploy-Embeddable-AI/testingSyntaxTZD.png)
