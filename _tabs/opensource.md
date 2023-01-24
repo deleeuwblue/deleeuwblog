@@ -17,6 +17,17 @@ Check out the [operator-sample-go](https://github.com/IBM/operator-sample-go) re
 
 ![image](/assets/img/opensource/OperatorMetaModel.png)
 
+## Software as a Service Reference Architecture
+
+Technologies:
+* Kubernetes, OpenShift, CodeEngine
+* CI/CD, DevSecOps
+* Postgres, IBM AppID, Quarkus, Vue.js
+
+Check out the [multi-tenancy](https://github.com/IBM/multi-tenancy) repo.
+
+![image](/assets/img/opensource/saas.png)
+
 ## Automation for Watson NLP Deployments
 
 Technologies:
@@ -28,13 +39,11 @@ Check out the [watson-automation](https://github.com/ibm/watson-automation) repo
 
 ![image](/assets/img/opensource/watson-automation.png)
 
-## Software as a Service Reference Architecture
+## Automation for IBM Cloud Pak Deployments
 
 Technologies:
-* Kubernetes, OpenShift, CodeEngine
-* CI/CD, DevSecOps
-* Postgres, IBM AppID, Quarkus, Vue.js
+* Terraform
+* Ansible
+* IBM Cloud Paks
 
-Check out the [multi-tenancy](https://github.com/IBM/multi-tenancy) repo.
-
-![image](/assets/img/opensource/saas.png)
+Check out the [Cloud Pak Deployer](https://github.com/IBM/cloud-pak-deployer) repo.
