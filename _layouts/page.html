@@ -40,13 +40,18 @@ layout: default
     <div class="access">
       {% include update-list.html %}
       <!-- {% include trending-tags.html %} -->
-      {% include disclaimer.html %}
+      <!--{% include disclaimer.html %}-->
     </div>
 
     {% for _include in layout.panel_includes %}
       {% assign _include_path = _include | append: '.html' %}
       {% include {{ _include_path }} %}
     {% endfor %}
+
+    <div class="access">
+      {% include disclaimer.html %}
+    </div>
+
   </div>
 
 </div>
