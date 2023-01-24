@@ -38,12 +38,3 @@ Technologies:
 Check out the [watson-automation](https://github.com/ibm/watson-automation) repo.
 
 ![image](/assets/img/opensource/watson-automation.png)
-
-## Automation for IBM Cloud Pak Deployments
-
-Technologies:
-* Terraform
-* Ansible
-* IBM Cloud Paks
-
-Check out the [Cloud Pak Deployer](https://github.com/IBM/cloud-pak-deployer) repo.
