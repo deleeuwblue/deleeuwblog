@@ -46,4 +46,6 @@ Technologies:
 * Ansible
 * IBM Cloud Paks
 
-Check out the [Cloud Pak Deployer](https://github.com/IBM/cloud-pak-deployer) repo.
+Read the [brief introduction](https://developer.ibm.com/tutorials/deploy-cloud-paks-openshift/) and check out the [Cloud Pak Deployer](https://github.com/IBM/cloud-pak-deployer) repo.
+
+![image](/assets/img/opensource/cpd-deployment.png)
