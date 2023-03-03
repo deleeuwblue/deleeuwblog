@@ -59,24 +59,24 @@ When using custom training, most machine learning algorithms can't take in raw t
 * Sentiment classification refers to analyzing text for positive, neutral or negative sentiment.
 * Analysis is done at either document, sentence or for a targeted aspect. For document level, the sentiment score for individual sentences is aggregated. For aspect oriented, this focusses on sentences which contain a specified span of text.
 
-Pre-trained model(s) available: Yes
-Can be custom trained: Yes
+* Pre-trained model(s) available: Yes
+* Can be custom trained: Yes
 
 #### Entities Phrase extraction
 
 * Entities can include names of people, organization names, dates, prices, and facilities. Entities can be pre-trained or added for custom scenarios.
 * Entities can be extracted from text.
 
-Pre-trained model(s) available: Yes
-Can be custom trained: Yes
+* Pre-trained model(s) available: Yes
+* Can be custom trained: Yes
 
 #### Keywords & Phrase extraction
 
 * Phrases are non-overlapping noun phrases from the input text.  A noun phrase is small group of words which contains a noun but doesn't contain a verb
 * Keywords from a document can accurately describe the document's content and can facilitate fast information processing. They are created using the output of Phrases and ranked according to how important they are in the document.
 
-Pre-trained model(s) available: Yes
-Can be custom trained: No
+* Pre-trained model(s) available: Yes
+* Can be custom trained: No
 
 #### Topic Modeling
 
@@ -84,52 +84,52 @@ Can be custom trained: No
 * For example, customer service teams can sort the data to understand what the main problems are and route them to the right experts.
 * Topic modeling does not require that the topics are pre-defined, the main themes are identified by analyzing the text.
 
-Pre-trained model(s) available: No
-Can be custom trained: Yes
+* Pre-trained model(s) available: No
+* Can be custom trained: Yes
 
 #### Text Classification
 
 * Classify a data set into multiple pre-defined classes, e.g. customer reviews of hotels are classified in ‘non-complaint’ and ‘complaint’
 
-Pre-trained model(s) available: No
-Can be custom trained: Yes
+* Pre-trained model(s) available: No
+* Can be custom trained: Yes
 
 #### Text Categorization
 
 * Organize a dataset into a hierarchical categorization system, for example categorize news articles into a topology like politics, sports, entertainment.
 * If the dataset already has a broad category labels, text categorization could be used to define more fine grained categories. For example, politics is further categorized into foreign policy, education, health etc
 
-Pre-trained model(s) available: Yes
-Can be custom trained: Yes
+* Pre-trained model(s) available: Yes
+* Can be custom trained: Yes
 
 #### Relation Extraction
 
 * Extract relations between two entity mentions. For example, in the text "John Smith drives for Uber.", the entities John Smith and Uber are in a relationship with each other, and the relationship type is 'works for'.
 
-Pre-trained model(s) available: Yes
-Can be custom trained: Yes
+* Pre-trained model(s) available: Yes
+* Can be custom trained: Yes
 
 #### Co-reference Resolution
 
 * Grouping multiple entity mentions in the input text that refer to the same real-world entity. For example, in the text 'Anna Smith is an engineer. Anna loves her job at IBM.', 'Anna Smith' and 'Anna' refer to the same entity.
 
-Pre-trained model(s) available: Yes
-Can be custom trained: Yes
+* Pre-trained model(s) available: Yes
+* Can be custom trained: Yes
 
 #### Concept Extraction
 
 * Extract general DBPedia concepts that are directly referenced or alluded to (but not directly referenced) in the input text. For example, in the text 'IBM announces new advances in quantum computing', a concept extracted may be http://dbpedia.org/resource/IBM, http://dbpedia.org/resource/Quantum_computing and http://dbpedia.org/resource/Qubit.
 
-Pre-trained model(s) available: Yes
-Can be custom trained: No
+* Pre-trained model(s) available: Yes
+* Can be custom trained: No
 
 #### Topical Clustering
 
 * Performs a topical clustering analysis over a collection of documents.
 * Documents are clustered into different groups based on a similarity measure.
 
-Pre-trained model(s) available: No
-Can be custom trained: Yes
+* Pre-trained model(s) available: No
+* Can be custom trained: Yes
 
 #### PII Entities
 
@@ -137,8 +137,8 @@ Can be custom trained: Yes
 * The majority of types rely on looking for common formats and performing checksum/validations, e.g. to validate a credit card number.
 * Other entities like persons and locations use a pre-trained model.
 
-Pre-trained model(s) available: Yes
-Can be custom trained: No
+* Pre-trained model(s) available: Yes
+* Can be custom trained: No
 
 ## Samples
 
