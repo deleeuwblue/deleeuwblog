@@ -22,7 +22,7 @@ Watson NLP Library for Embed has an capabilities for all these tasks. It has pri
 
 For pre-trained models, IBM has taken special care about the data to train the models. This includes the quality of the data, the data provenance, and its intellectual property. This means that unlike some models in open-source NLP frameworks, you can can use IBM pre-trained  models without worrying about license or intellectual property infringements.  
 
-For both pre-trained models and algorithms that must be trained with custom data, there may be a choice based on the four major approaches:
+For both pre-trained models and algorithms that must be trained with custom data, there may be a choice based on the four major NLP approaches:
 
 * Rule-based - no training data required, very accurate, fast runtime inference
 * Classic statistical ML algorithms - medium quality, fast runtime inference
@@ -148,7 +148,7 @@ Samples which demonstrate both pre-trained models, and training ML/AI algorithms
 
 The Watson NLP libraries are available in processing environments for Watson Studio (which includes Jupyter Notebooks). Watson Studio is available via IBM Cloud Pak for Data as a Service on IBM Cloud, or on-premises. A free trial is available.
 
-## Putting it All Together
+## Putting it all Together
 
 When you're ready to deploy a pre-trained or custom trained model, you can deploy it with the watson-nlp-runtime container. This provides a stable API for the NLP capabilities described, regardless of the algorithm used to train the model.
 
