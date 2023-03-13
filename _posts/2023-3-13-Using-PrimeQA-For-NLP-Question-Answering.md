@@ -202,4 +202,5 @@ Reading finds an answer only from the provided context information.
 
 Question Answering uses the Retriever to find documents in the index, and a Transformer model to propose a specific answer to the question. There are various settings which can influence the results, for example the minimum/maximum number of tokens for the answer. In this example, I reduced the number of answer tokens as I wanted to encourage short answers listing the animals the father met.
 
+![testQA](/assets/img/2023-3-13-Using-PrimeQA-For-NLP-Question-Answering/qa.png)
 
