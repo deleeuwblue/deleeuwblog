@@ -4,7 +4,7 @@ icon: fas fa-code
 order: 4
 ---
 
-Below are a some of open source projects I have contributed to.
+Below are a some of open source projects & publications I have contributed to.
 
 ## Operators Reference Architecture
 
@@ -49,3 +49,9 @@ Technologies:
 Read the [brief introduction](https://developer.ibm.com/tutorials/deploy-cloud-paks-openshift/) and check out the [Cloud Pak Deployer](https://github.com/IBM/cloud-pak-deployer) repo.
 
 ![image](/assets/img/opensource/cpd-deployment.png)
+
+## IBM Developer Tutorials
+
+(Build an AI text classifier and deploy it as a microservice to be embedded into your own application)[https://developer.ibm.com/tutorials/prepare-and-deploy-a-text-classification-model-using-label-sleuth-and-the-watson-nlp-library-for-embeddable-ai/]
+
+(Secure routes with passthrough TLS for web applications using Open Liberty on Red Hat OpenShift)[https://developer.ibm.com/tutorials/secure-routes-with-passthrough-tls-for-web-applications-using-open-liberty-on-red-hat-openshift/]
