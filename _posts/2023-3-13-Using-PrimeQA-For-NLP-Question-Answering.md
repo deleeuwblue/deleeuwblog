@@ -182,7 +182,7 @@ cp -L /root/gitRepos/create-primeqa-app/cache/huggingface/hub/models--xlm-robert
 
 ## Testing with PrimeQA UI
 
-Open a browser to `PUBLIC_IP:82/qa`:
+Open a browser to `PUBLIC_IP:82/qa`.
 
 To help with composing some test searching, you can read a [brief summary of My Father Met a Dragon](https://www.supersummary.com/my-fathers-dragon/summary/).
 
@@ -190,7 +190,7 @@ To help with composing some test searching, you can read a [brief summary of My 
 
 Retrieval searches the document index. Note, the first query will appear to fail while the index is loaded for the first time. The query results will appear after a few minutes.
 
-
+![testRetrieval](/assets/img/2023-3-13-Using-PrimeQA-For-NLP-Question-Answering/retrieval.png)
 
 ### Test Reading
 
