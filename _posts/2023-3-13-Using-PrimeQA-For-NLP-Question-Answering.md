@@ -196,7 +196,7 @@ Retrieval searches the document index. Note, the first query will appear to fail
 
 Reading finds an answer only from the provided context information.
 
-
+![testReading](/assets/img/2023-3-13-Using-PrimeQA-For-NLP-Question-Answering/reading.png)
 
 ### Test Question Answering
 
