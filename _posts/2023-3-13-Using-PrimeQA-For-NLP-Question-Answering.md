@@ -1,5 +1,5 @@
 ---
-title: New Blog WIP
+title: Using PrimeQA For NLP Question Answering
 date: 2023-03-13 09:00:00 +/-0000
 categories: [IBM Watson for Embed, General Information]
 tags: [ai, nlp]     # TAG names should always be lowercase
@@ -190,16 +190,16 @@ To help with composing some test searching, you can read a [brief summary of My 
 
 Retrieval searches the document index. Note, the first query will appear to fail while the index is loaded for the first time. The query results will appear after a few minutes.
 
-![testRetrieval](/assets/img/2023-3-13-Using-PrimeQA-For-NLP-Question-Answering/retrieval.png)
+
 
 ### Test Reading
 
 Reading finds an answer only from the provided context information.
 
-![testReading](/assets/img/2023-3-13-Using-PrimeQA-For-NLP-Question-Answering/reading.png)
+
 
 ### Test Question Answering
 
 Question Answering uses the Retriever to find documents in the index, and a Transformer model to propose a specific answer to the question. There are various settings which can influence the results, for example the minimum/maximum number of tokens for the answer. In this example, I reduced the number of answer tokens as I wanted to encourage short answers listing the animals the father met.
 
-![testQA](/assets/img/2023-3-13-Using-PrimeQA-For-NLP-Question-Answering/qa.png)
+
