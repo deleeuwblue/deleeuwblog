@@ -121,7 +121,7 @@ id	text	title
 
 The corpus, index and model need to be installed into the 'PrimeQA store' which is located in directory `primeqa-store`.
 
-The model used as the Reader is not installed by default. Run the following script to download it to /examples/my_father_met_a_dragon:
+The model used as the Reader is not installed by default. Run the following script to download it to `/examples/my_father_met_a_dragon`:
 
 ```sh
 ./download-model.sh
