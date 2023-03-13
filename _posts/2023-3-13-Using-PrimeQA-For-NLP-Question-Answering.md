@@ -83,11 +83,18 @@ Our corpus is available here. It is a public domain children's story in text for
 
 In this tutorial, we will use Dr.Decr, a ColBERT based fine-tuned language model to create an index. It expects the corpus to be a collection of documents in a tsv file, in a tabular `id text title` arrangement, ideally in the 1-180 word range. The primeqa repo provides some [sample scripts](https://github.com/primeqa/create-primeqa-app/tree/main/examples/harry-potter-corpus) to help prepare the data into this format. The scripts are designed for another book which is no longer available in the public domain, but this is a good starting point.
 
-For this blog, I used the following [dataset from Kaggle](https://www.kaggle.com/datasets/edenbd/children-stories-text-corpus). It contains multiple stories, but I copied lines a 67331-67543 to a new file `Book1.txt`, giving me just one story, "MY FATHER'S DRAGON". Copy `Book1.txt` to /examples/harrypotter.
+For this blog, I used the following [dataset from Kaggle](https://www.kaggle.com/datasets/edenbd/children-stories-text-corpus). It contains multiple stories, but I copied lines 67331-67543 to a new file `Book1.txt`, giving me just one story, "MY FATHER'S DRAGON". 
+
+```sh
+cd /root/gitRepos/create-primeqa-app/examples
+cp -R harrypotter my_father_met_a_dragon
+cd my_father_met_a_dragon
+```
+
+Copy `Book1.txt` from your workstation to `/examples/my_father_met_a_dragon`.
 
 Install the pre-requisites for processing the corpus:
 ```sh
-cd /root/gitRepos/create-primeqa-app/examples/harrypotter
 python -m venv .env           # will create directory .env
 source .env/bin/activate      # activate virtualenv
 alias pip=pip3
@@ -114,7 +121,7 @@ id	text	title
 
 The corpus, index and model need to be installed into the 'PrimeQA store' which is located in directory `primeqa-store`.
 
-The model used as the Reader is not installed by default. Run the following script to download it to /examples/harrypotter:
+The model used as the Reader is not installed by default. Run the following script to download it to /examples/my_father_met_a_dragon:
 
 ```sh
 ./download-model.sh
