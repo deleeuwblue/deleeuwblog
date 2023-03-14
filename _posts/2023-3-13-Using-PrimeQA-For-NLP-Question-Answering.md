@@ -211,7 +211,9 @@ Open a browser to `PUBLIC_IP:82/qa`.
 
 To help with composing some test searching, you can read a [brief summary of My Father Met a Dragon](https://www.supersummary.com/my-fathers-dragon/summary/).
 
-As you test the three capabilities below (Retrieval, Reading, Question Answering), you will notice the first query takes a long time. This is because primeQA is downloading models in the background. You will see them appear here `create-primeqa-app/cache/huggingface/hub`:
+As you test the three capabilities below (Retrieval, Reading, Question Answering), you will notice the first query takes a long time. This is because primeQA is downloading models in the background. These are the transformer (large language) models used for Reading and Question Answering. PrimeQA allows these models can be replaced according to the specific requirements.
+
+You will see the model appear here `create-primeqa-app/cache/huggingface/hub`:
 
 ```sh
 -rwxrwxrwx 1 2000 2000    1 Mar 14 09:21 version.txt
@@ -221,19 +223,35 @@ drwxr-xr-x 6 2000 2000 4096 Mar 14 13:41 models--PrimeQA--nq_tydi_sq1-reader-xlm
 
 ### Test Retrieval
 
-Retrieval searches the document index.
+Retrieval searches the document index. Select the Retrieval icon on the left and query 'What animals did Father meet?'.
+
+You will see documents from the index which mention the animals such as cat, bear, rhinoceras, lion, monkey etc. However you do not get one word answers.
+
+This uses the Retriever model (Dr.Decr) to find documents in the index.
 
 ![testRetrieval](/assets/img/2023-3-13-Using-PrimeQA-For-NLP-Question-Answering/retrieval.png)
 
 ### Test Reading
 
-Reading finds an answer only from the provided context information.
+Reading finds an answer only from the provided context information. Select the Reading icon on the left and query 'Did Mother link cats?', providing the context:
+
+```
+"My father and the cat became good friends but my father's mother was very upset about the cat. She hated cats, particularly ugly old alley cats. ""Elmer Elevator,"" she said to my father, ""if you think I'm going to give that cat a saucer of milk, you're very wrong. Once you start feeding stray alley cats you might as well expect to feed every stray in town, and I am not going to do it!""This made my father very sad, and he apologized to the cat because his mother had been so rude. He told the cat to stay anyway, and that somehow he would bring her a saucer of milk each day. My father fed the cat for three weeks, but one day his mother found the cat's saucer in the cellar and she was extremely angry. She whipped my father and threw the cat out the door, but later on my father sneaked out and found the cat."
+```
+
+The answer 'She hated cats' will be generated only from the context provided (in this case a document from the index).
+
+This uses the Reader model (nq_tydi_sq1-reader-xlmr_large-20221110).
 
 ![testReading](/assets/img/2023-3-13-Using-PrimeQA-For-NLP-Question-Answering/reading.png)
 
 ### Test Question Answering
 
-Question Answering uses the Retriever to find documents in the index, and a Transformer model to propose a specific answer to the question. There are various settings which can influence the results, for example the minimum/maximum number of tokens for the answer. In this example, I reduced the number of answer tokens as I wanted to encourage short answers listing the animals which the father met.
+Question Answering proposes a short answer and presents the document from the index which contained the information. There are various settings which can influence the results, for example the minimum/maximum number of tokens for the answer. In this example, I reduced the number of answer tokens as I wanted to encourage short answers listing the animals which the father met.
+
+Select the QA icon on the left and query 'What animals did Father meet?'.
+
+This uses the Retriever model (Dr.Decr) to find documents in the index, and the Reader model (nq_tydi_sq1-reader-xlmr_large-20221110) to propose a specific answer to the question.
 
 ![testQA](/assets/img/2023-3-13-Using-PrimeQA-For-NLP-Question-Answering/qa.png)
 
