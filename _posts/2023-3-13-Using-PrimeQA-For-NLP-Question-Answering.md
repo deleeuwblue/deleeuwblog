@@ -78,7 +78,30 @@ The containers run the following components:
 
 Ensure that ports 50051, 50059 and 82 are accessible. If you plan to access the web Ui via a public IP and you're using a cloud virtual server, you may need to edit the network security (e.g. Security Group on IBM Cloud).
 
-Note that settings are in the `orchestrator-store/primeqa.json`. By default, both the Reader and Retriever processes will be provided locally by primeQA. It is possible to also add a configuration for Watson Discovery for the Reader. I'll explain later what these components do.
+Settings are in the `orchestrator-store/primeqa.json`. Edit this file as follows:
+
+```sh
+{
+    "application_id": "primeqa",
+    "name": "PrimeQA",
+    "description": "PrimeQA is a public open source repository that enables researchers and developers to train state-of-the-art models for question answering (QA).",
+    "settings": {
+        "retrievers": {
+	  "PrimeQA": {
+            "service_endpoint": "primeqa:50051"
+          }
+        },
+        "readers": {
+	  "PrimeQA": {
+            "service_endpoint": "primeqa:50051",	
+            "beta": 0.7
+          }
+        }
+    }
+}
+```
+
+This sets the Reader and Retriever processes to be provided locally by primeQA. It is possible to also add a configuration for Watson Discovery for the Reader. I'll explain later what the Reader and Retriever components do.
 
 ## Preparing the Corpus 
 
@@ -172,34 +195,15 @@ The `setup-index.sh` script also created file `primeqa-store/indexes/<indexname>
 }
 ```
 
-During the processing of `setup-index.sh`, you may have noticed that several transformer models were downloaded to `create-primeqa-app/cache/huggingface/hub`:
-
-```sh
-drwxrwxrwx 6 2000 2000 4096 Mar  8 08:57 models--PrimeQA--nq_tydi_sq1-reader-xlmr_large-20221110
-drwxrwxrwx 2 2000 2000 4096 Mar  8 13:27 models--nq_tydi_sq1-reader-xlmr_large-20221110
-drwxrwxrwx 6 2000 2000 4096 Mar  8 13:24 models--xlm-roberta-base
--rwxrwxrwx 1 2000 2000    1 Mar  7 16:49 version.txt
-```
-
-These models are used for question answering, and must now be copied to the `PrimeA store`.  Note that the directory `models--nq_tydi_sq1-reader-xlmr_large-20221110` is empty so cannot be copied:
-
-```sh
-mkdir /root/gitRepos/create-primeqa-app/primeqa-store/models/nq_tydi_sq1-reader-xlmr_large-20221110
-cd /root/gitRepos/create-primeqa-app/primeqa-store/models/nq_tydi_sq1-reader-xlmr_large-20221110
-cp -L create-primeqa-app/cache/huggingface/hub/models--PrimeQA--nq_tydi_sq1-reader-xlmr_large-20221110/snapshots/59c0ac1e8c43a3c7f6d5e26e4bf1e9c3c53b850c/config.json .
-cp -L create-primeqa-app/cache/huggingface/hub/models--PrimeQA--nq_tydi_sq1-reader-xlmr_large-20221110/snapshots/59c0ac1e8c43a3c7f6d5e26e4bf1e9c3c53b850c/pytorch_model.bin .
-cp -L create-primeqa-app/cache/huggingface/hub/models--PrimeQA--nq_tydi_sq1-reader-xlmr_large-20221110/snapshots/59c0ac1e8c43a3c7f6d5e26e4bf1e9c3c53b850c/tokenizer.json .
-
-mkdir /root/gitRepos/create-primeqa-app/primeqa-store/models/xlm-roberta-base
-cd /root/gitRepos/create-primeqa-app/primeqa-store/models/xlm-roberta-base
-cp -L /root/gitRepos/create-primeqa-app/cache/huggingface/hub/models--xlm-roberta-base/snapshots/42f548f32366559214515ec137cdd16002968bf6/config.json .
-cp -L /root/gitRepos/create-primeqa-app/cache/huggingface/hub/models--xlm-roberta-base/snapshots/42f548f32366559214515ec137cdd16002968bf6/pytorch_model.bin .
-cp -L /root/gitRepos/create-primeqa-app/cache/huggingface/hub/models--xlm-roberta-base/snapshots/42f548f32366559214515ec137cdd16002968bf6/tokenizer.json .
-```
-
 ## Restart primeQA
 
-?
+It may not be strictly necessary, but after making the configuration I restarted the containers:
+
+```
+cd /root/gitRepos/create-primeqa-app
+./terminate.sh
+./launch.sh
+```
 
 ## Testing with PrimeQA UI
 
@@ -207,9 +211,17 @@ Open a browser to `PUBLIC_IP:82/qa`.
 
 To help with composing some test searching, you can read a [brief summary of My Father Met a Dragon](https://www.supersummary.com/my-fathers-dragon/summary/).
 
+As you test the three capabilities below (Retrieval, Reading, Question Answering), you will notice the first query takes a long time. This is because primeQA is downloading models in the background. You will see them appear here `create-primeqa-app/cache/huggingface/hub`:
+
+```sh
+-rwxrwxrwx 1 2000 2000    1 Mar 14 09:21 version.txt
+drwxr-xr-x 6 2000 2000 4096 Mar 14 13:39 models--xlm-roberta-base
+drwxr-xr-x 6 2000 2000 4096 Mar 14 13:41 models--PrimeQA--nq_tydi_sq1-reader-xlmr_large-20221110
+```
+
 ### Test Retrieval
 
-Retrieval searches the document index. Note, the first query will appear to fail while the index is loaded for the first time. The query results will appear after a few minutes.
+Retrieval searches the document index.
 
 ![testRetrieval](/assets/img/2023-3-13-Using-PrimeQA-For-NLP-Question-Answering/retrieval.png)
 
@@ -221,7 +233,7 @@ Reading finds an answer only from the provided context information.
 
 ### Test Question Answering
 
-Question Answering uses the Retriever to find documents in the index, and a Transformer model to propose a specific answer to the question. There are various settings which can influence the results, for example the minimum/maximum number of tokens for the answer. In this example, I reduced the number of answer tokens as I wanted to encourage short answers listing the animals the father met.
+Question Answering uses the Retriever to find documents in the index, and a Transformer model to propose a specific answer to the question. There are various settings which can influence the results, for example the minimum/maximum number of tokens for the answer. In this example, I reduced the number of answer tokens as I wanted to encourage short answers listing the animals which the father met.
 
 ![testQA](/assets/img/2023-3-13-Using-PrimeQA-For-NLP-Question-Answering/qa.png)
 
