@@ -24,6 +24,11 @@ document retrieval and reading comprehension based on neural networks.  It provi
 
 [Install Docker](https://docs.docker.com/engine/install/ubuntu/)
 
+Install Docker Compose:
+```sh
+apt  install docker-compose
+```
+
 Install git:
 ```sh
 apt install git
@@ -31,7 +36,7 @@ apt install git
 
 Install Python & pip:
 ```sh
-apt install python-pip
+apt install python3-pip
 apt-get install python3-venv
 ```
 
@@ -56,7 +61,8 @@ export PUBLIC_IP=<your IP or localhost>
 
 Launch primeQA by launching three container images. Use the `-m gpu` only if your Ubuntu host includes a GPU:
 ```sh
-launch.sh [-m gpu]
+cd create-primeqa-app
+./launch.sh [-m gpu]
 ```
 
 Validate the three containers started:
@@ -76,32 +82,32 @@ Note that settings are in the `orchestrator-store/primeqa.json`. By default, bot
 
 ## Preparing the Corpus 
 
-Our corpus is available here. It is a public domain children's story in text format. PrimeQA supports different models for information retrieval (provided by the Reader component of primeQA):
+PrimeQA supports different models for information retrieval (provided by the Reader component of primeQA):
 
 * There are two Dense IR engines supported: ColBERT and Direct Passage Retrieval (DPR).
 * Sparse IR is a Pyserini-based IR Engine enabling BM25 ranking using bag of words representation.
 
 In this tutorial, we will use Dr.Decr, a ColBERT based fine-tuned language model to create an index. It expects the corpus to be a collection of documents in a tsv file, in a tabular `id text title` arrangement, ideally in the 1-180 word range. The primeqa repo provides some [sample scripts](https://github.com/primeqa/create-primeqa-app/tree/main/examples/harry-potter-corpus) to help prepare the data into this format. The scripts are designed for another book which is no longer available in the public domain, but this is a good starting point.
 
-For this blog, I used the following [dataset from Kaggle](https://www.kaggle.com/datasets/edenbd/children-stories-text-corpus). It contains multiple stories, but I copied lines 67331-67543 to a new file `Book1.txt`, giving me just one story, "MY FATHER'S DRAGON". 
+For this blog, I used the following [dataset from Kaggle](https://www.kaggle.com/datasets/edenbd/children-stories-text-corpus). It contains multiple stories, but I copied lines 67331-67543 to a new file `Book1.txt`, giving me just one story, "MY FATHER'S DRAGON" which is public domain. 
 
 ```sh
 cd /root/gitRepos/create-primeqa-app/examples
-cp -R harrypotter my_father_met_a_dragon
-cd my_father_met_a_dragon
+cp -R harry-potter-corpus my_fathers_dragon
+cd my_fathers_dragon
 ```
 
-Copy `Book1.txt` from your workstation to `/examples/my_father_met_a_dragon`.
+Copy `Book1.txt` from your workstation to `/examples/my_fathers_dragon`.
 
 Install the pre-requisites for processing the corpus:
 ```sh
-python -m venv .env           # will create directory .env
-source .env/bin/activate      # activate virtualenv
 alias pip=pip3
 alias python=python3
+python -m venv .env           # will create directory .env
+source .env/bin/activate      # activate virtualenv
 pip install primeqa
 pip install --upgrade pip
-pip install spacy             # install stuff
+pip install spacy             
 python -m spacy download en_core_web_sm
 ```
 
@@ -121,7 +127,7 @@ id	text	title
 
 The corpus, index and model need to be installed into the 'PrimeQA store' which is located in directory `primeqa-store`.
 
-The model used as the Reader is not installed by default. Run the following script to download it to `/examples/my_father_met_a_dragon`:
+The model used as the Reader is not installed by default. Run the following script to download it to `/examples/my_fathers_dragon`:
 
 ```sh
 ./download-model.sh
@@ -141,21 +147,27 @@ Next, invoke a script which uses the DrDecr model to create an index, and copy t
 ./setup-index.sh "${CHECKPOINT}" corpus.tsv ../../primeqa-store/
 ```
 
-The `setup-index.sh` script created one or more <indexname> directories at `primeqa-store/indexes/`. If you find there are multiple directories with names such as `9329c257-a514-48a7-ac03-c53a05e3ec5f`, inspect each one in turn to determine if there are files in the subdirectory `9329c257-a514-48a7-ac03-c53a05e3ec5f/index`.  If this is empty, the <indexname> directory is not required and can be deleted. Repeat this process until only one <indexname> directory remains, which should have a populated `index` subdirectory. Rename this <indexname>:
+The `setup-index.sh` script created one or more <indexname> directories at `primeqa-store/indexes/`. 
+
+> If you find there are multiple directories with names such as `9329c257-a514-48a7-ac03-c53a05e3ec5f`, inspect each one in turn to determine if there are files in the subdirectory `9329c257-a514-48a7-ac03-c53a05e3ec5f/index`.  If this is empty, the <indexname> directory is not required and can be deleted. Repeat this process until only one <indexname> directory remains, which should have a populated `index` subdirectory. 
+{: .prompt-tip }
+
+Rename the <indexname> directory:
 
 ```sh
-mv primeqa-store/indexes/<indexname> primeqa-store/indexes/my_father_met_a_dragon
+cd /root/gitRepos/create-primeqa-app/primeqa-store/indexes
+mv <indexname> my_fathers_dragon
 ```
 
-The `setup-index.sh` script also created file `primeqa-store/indexes/<indexname>/information.json`. At the time of writing, this file has been created incorrectly. Edit the file so it looks like this:
+The `setup-index.sh` script also created file `primeqa-store/indexes/<indexname>/information.json`. At the time of writing, this file has been created incorrectly. Replace the contents so it looks like this:
 
 ```sh
 {
-  "index_id": "my_father_met_a_dragon",
+  "index_id": "my_fathers_dragon",
   "status": "READY",
   "configuration": {
     "engine_type": "ColBERT",
-    "checkpoint": "<penultimate directory of your $CHECKPOINT path>"  #E.g. ColBERTIndexer_20230308101308  
+    "checkpoint": "<penultimate directory of your $CHECKPOINT path, e.g. ColBERTIndexer_20230308101308>"  
   }
 }
 ```
@@ -184,6 +196,10 @@ cp -L /root/gitRepos/create-primeqa-app/cache/huggingface/hub/models--xlm-robert
 cp -L /root/gitRepos/create-primeqa-app/cache/huggingface/hub/models--xlm-roberta-base/snapshots/42f548f32366559214515ec137cdd16002968bf6/pytorch_model.bin .
 cp -L /root/gitRepos/create-primeqa-app/cache/huggingface/hub/models--xlm-roberta-base/snapshots/42f548f32366559214515ec137cdd16002968bf6/tokenizer.json .
 ```
+
+## Restart primeQA
+
+?
 
 ## Testing with PrimeQA UI
 
