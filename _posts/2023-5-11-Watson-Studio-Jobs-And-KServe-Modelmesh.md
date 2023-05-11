@@ -6,11 +6,11 @@ tags: [watsonnlp, classifier, watsonstudio, kservemodelmesh]     # TAG names sho
 image: https://raw.githubusercontent.com/deleeuwblue/deleeuwblog/main/assets/img/2023-5-11-Watson-Studio-Jobs-And-KServe-Modelmesh/city.jpg
 ---
 
-It's easy to use Watson NLP Library for embed to include AI into your applications.  Watson NLP provides both pre-trained models, or your can use the python wrappers to train your own models, using a choice of algorithms, with the Watson Studio tool.  In addition, KServe Modelmesh is a standard model inference platform on k8s.  It is built for highly scalable use cases and supports both Watson NLP and existing third party model servers with standard ML/DL model formats.
+It's easy to use Watson NLP Library for Embed to include AI into your applications.  Watson NLP provides both pre-trained models, or your can use the python wrappers to train your own models with Watson Studio, using a choice of algorithms.  In addition, KServe Modelmesh is a standard model inference platform on k8s.  It is built for highly scalable use cases and supports both Watson NLP and existing third party model servers with standard ML/DL model formats.
 
-In many cases, the training data for a model might change over time, requiring retraining.  In this blog I present a simple approach which combines automation in Watson Studio to build a new model, with KServe Modelmesh to seamlessly update the deployed NLP API.
+In many cases, the training data for a model might change over time, requiring model retraining.  In this blog, I present a simple approach which combines automation in Watson Studio to build a new model, with KServe Modelmesh to seamlessly update the deployed NLP API.
 
-For initial context, read my blogs [introducing IBM Watson for Embed]({% post_url 2023-1-2-Introducing-IBM-Watson-for-Embed %}) and [Deploying IBM Watson NLP to Kubernetes using KServe Modelmesh]({% post_url 2023-1-6-Deploying-IBM-Watson-NLP-to-KServe-Modelmesh-Kubernetes %}).
+For initial context, read my blogs [Introducing IBM Watson for Embed]({% post_url 2023-1-2-Introducing-IBM-Watson-for-Embed %}) and [Deploying IBM Watson NLP to Kubernetes using KServe Modelmesh]({% post_url 2023-1-6-Deploying-IBM-Watson-NLP-to-KServe-Modelmesh-Kubernetes %}).
 
 ## Automation
 
@@ -22,7 +22,7 @@ In this simple approach we will:
 
 ## Using Watson Studio to train a classification model
 
-Watson Studio is part of IBM Cloud Pak for data, available as a service on IBM Cloud or it can be deployed to OpenShift running anywhere.  The Watson Studio tool is used to run Jupyter notebooks which include the Watson NLP python libraries.  These libraries provide a convenient wrapper to simplify the training and test of NLP models, using a variety of algorithms from both Open Source and IBM.
+Watson Studio is part of IBM Cloud Pak for Data, available as a service on IBM Cloud or it can be deployed to OpenShift running anywhere.  The Watson Studio tool is used to run Jupyter notebooks which include the Watson NLP python libraries.  These libraries provide a convenient wrapper to simplify the training and test of NLP models, using a variety of algorithms from both Open Source and IBM.
 
 I have provided a sample notebook and training data.  The dataset is intentionally small so the training can be completed relatively quickly, even with a small runtime resource in Watson Studio.
 
@@ -62,11 +62,11 @@ Specify the version of the notebook and the runtime (which must include the Wats
 
 ![newJob](/assets/img/2023-5-11-Watson-Studio-Jobs-And-KServe-Modelmesh/job3.png)
 
-Set a schedule.  We test the job by triggering it manually.
+Set a schedule.  We can also test the job by triggering it manually.
 
 ![newJob](/assets/img/2023-5-11-Watson-Studio-Jobs-And-KServe-Modelmesh/job4.png)
 
-Review the summary and create and run the job for the first time:
+Review the summary, then create and run the job for the first time:
 
 ![newJob](/assets/img/2023-5-11-Watson-Studio-Jobs-And-KServe-Modelmesh/job5.png)
 
@@ -88,7 +88,7 @@ kubectl config set-context --current --namespace=modelmesh-serving
 ./scripts/install.sh --namespace modelmesh-serving --quickstart
 ```
 
-Patch the storageconfig secret so it can reference the COS on IBM Cloud, in addition to the local minio object storage installed by the quickstart script.  The required values can be found in IBM Cloud:
+Patch the `storage-config` secret so it can reference the COS on IBM Cloud, in addition to the local minio object storage installed by the quickstart script.  The required values can be found in IBM Cloud:
 
 ![cosKeys2](/assets/img/2023-5-11-Watson-Studio-Jobs-And-KServe-Modelmesh/cosKeys1.png)
 ![cosKeys1](/assets/img/2023-5-11-Watson-Studio-Jobs-And-KServe-Modelmesh/cosKeysManager.png)
@@ -98,9 +98,9 @@ Patch the storageconfig secret so it can reference the COS on IBM Cloud, in addi
 kubectl patch secret storage-config -n modelmesh-serving -p='{"stringData":{"ibmCOS":"{\n  \"type\": \"s3\",\n  \"access_key_id\": \"<YOUR ACCESS KEY>\",\n  \"secret_access_key\": \"<YOUR SECRET ACCESS KEY>\",\n  \"endpoint_url\": \"https://s3.eu-gb.cloud-object-storage.appdomain.cloud\",\n  \"default_bucket\": \"<YOUR BUCKET NAME>\",\n  \"region\": \"en-gb\"\n}\n"}}'
 ```
 
-Follow the steps `Create a Pull Secret and ServiceAccount` from [Deploying IBM Watson NLP to Kubernetes using KServe Modelmesh]({% post_url 2023-1-6-Deploying-IBM-Watson-NLP-to-KServe-Modelmesh-Kubernetes %})
+Follow the steps **Create a Pull Secret and ServiceAccount** from [Deploying IBM Watson NLP to Kubernetes using KServe Modelmesh]({% post_url 2023-1-6-Deploying-IBM-Watson-NLP-to-KServe-Modelmesh-Kubernetes %})
 
-Follow the steps `Configure a ServingRuntime for Watson NLP` from [Deploying IBM Watson NLP to Kubernetes using KServe Modelmesh]({% post_url 2023-1-6-Deploying-IBM-Watson-NLP-to-KServe-Modelmesh-Kubernetes %})
+Follow the steps **Configure a ServingRuntime for Watson NLP** from [Deploying IBM Watson NLP to Kubernetes using KServe Modelmesh]({% post_url 2023-1-6-Deploying-IBM-Watson-NLP-to-KServe-Modelmesh-Kubernetes %})
 
 Finally, an InferenceService CR needs to be created to make the model available via the watson-nlp Serving Runtime that we already created.  This resource defines the location for model `ensemble_model.zip` in the COS bucket used by the Watson Studio project.  Note, the notebook must save the model with a zip extension.
 
@@ -130,7 +130,7 @@ The status of the InferenceService can be verified:
 kubectl get InferenceService
 
 NAME              URL                                               READY   PREV   LATEST   PREVROLLEDOUTREVISION   LATESTREADYREVISION   AGE
-syntax-izumo-en   grpc://modelmesh-serving.modelmesh-serving:8033   True   
+food-classifier-ensemble-model   grpc://modelmesh-serving.modelmesh-serving:8033   True   
 ```
 
 > Note, the watson-nlp-runtime container can take 5-10 minutes to download.  Until this has completed, the InferenceService will show a status of False.
@@ -217,7 +217,6 @@ Wait for the Watson Studio Job to execute on its schedule, or trigger a new run 
 ## Test the updated model via KServe
 
 ```sh
-git clone https://github.com/IBM/ibm-watson-embed-clients
 cd ibm-watson-embed-clients/watson_nlp/protos
 grpcurl -plaintext -proto ./common-service.proto \
 -H 'mm-vmodel-id: food-classifier-ensemble-model' \
@@ -231,7 +230,7 @@ grpcurl -plaintext -proto ./common-service.proto \
 127.0.0.1:8033 watson.runtime.nlp.v1.NlpService.ClassificationPredict
 ```
 
-The response demonstrates the classifier now incorporates the additional Bakery class of the updated training csv.
+The response demonstrates how the automation has made available a revised classifier incorporating the new training data (i.e. the Bakery class).
 
 ```sh
 {
