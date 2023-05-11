@@ -14,7 +14,7 @@ For deployment to OpenShift, see this [blog]({% post_url 2023-1-6-Deploying-IBM-
 
 ## Introducing KServe
 
-[KServe](https://github.com/kserve/kserve) is a standard model inference platform on k8s.  It is built for highly scalable use cases and supports existing thrid party model servers and standard ML/DL model formats, or it can be extended to support additional runtimes like the Watson NLP runtime.
+[KServe](https://github.com/kserve/kserve) is a standard model inference platform on k8s.  It is built for highly scalable use cases and supports existing third party model servers and standard ML/DL model formats, or it can be extended to support additional runtimes like the Watson NLP runtime.
 
 [Modelmesh Serving](https://github.com/kserve/modelmesh-serving) is intended to further increase KServe's scalability, especially when there are a large number of models which change frequently.  It intelligently loads and unloads models into memory from from cloud object storage (COS), to strike a trade-off between responsiveness to users and computational footprint.
 
@@ -27,7 +27,7 @@ Two approaches are available for installation:
 * A [quick start approach](https://github.com/kserve/modelmesh-serving/blob/release-0.9/docs/quickstart.md) which includes all the pre-reqs, i.e. etcd and even local cloud object storage (COS) with minIO.
 * A [customizable approach](https://github.com/kserve/modelmesh-serving/blob/release-0.9/docs/install/install-script.md) which requires Etcd to be already installed.
 
-I took the quick start approach and installed to an OpenShift cluster with the following commands:
+I took the quick start approach and installed to an Kubernetes cluster with the following commands:
 
 ```sh
 RELEASE=release-0.9
