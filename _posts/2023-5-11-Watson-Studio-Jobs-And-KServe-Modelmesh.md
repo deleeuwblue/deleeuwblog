@@ -254,5 +254,3 @@ The response demonstrates how the automation has made available a revised classi
   }
 }
 ```
-
-Test update
