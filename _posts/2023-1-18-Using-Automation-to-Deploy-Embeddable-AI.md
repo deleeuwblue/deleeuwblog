@@ -135,3 +135,5 @@ A Service resource allows the UBI or other pods to invoke the Watson NLP librari
 If you were to exec into the container of the UBI application pod, you could use gRPC or REST to invoke the NLP runtime, which was loaded with the IBM provided Syntax model:
 
 ![testingSyntaxTZD](/assets/img/2023-1-18-Using-Automation-to-Deploy-Embeddable-AI/testingSyntaxTZD.png)
+
+Thanks for reading
